@@ -4,6 +4,7 @@ using namespace std;
 /* Poziom 1*/
 class A
 {
+protected:
   int x;
 
 public:
@@ -14,19 +15,25 @@ public:
   A(int i)
   {
     x = i;
-    cout << "Konstruktor A(int i) wywolany" << endl;
+    cout << "Konstruktor A(int i) wywolany, x = " << x << endl;
   }
   ~A() { cout << "Destruktor A() wywolany" << endl; }
-  void print() { cout << x; }
+  void print() { cout << x << endl; }
 };
 
 /* Poziom 2*/
+
 class B : virtual public A
 {
 public:
-  B() : A(10)
+  B() : A(20) // A(20) konstruktor virtualnej klasy, znajdujący się w initializer list, jest ignorowany -> https://en.cppreference.com/w/cpp/language/initializer_list
   {
     cout << "Konstruktor B() wywolany" << endl;
+  }
+  B(int i)
+  {
+    x = i;
+    cout << "Konstruktor B(int i) wywolany, x = " << x << endl;
   }
   ~B() { cout << "Destruktor B() wywolany" << endl; }
 };
@@ -37,7 +44,7 @@ class C : virtual public A
 public:
   C()
   {
-    A(20);
+    A(30);
     cout << "Konstruktor C() wywolany" << endl;
   }
   ~C() { cout << "Destruktor C() wywolany" << endl; }
@@ -47,13 +54,14 @@ public:
 class D : public B, public C
 {
 public:
-  D() : B(), C() { cout << "Konstruktor D() wywolany" << endl; }
-  // ~D() { cout << "Destruktor D() wywolany" << endl; }
+  D() : B(44), C() { cout << "Konstruktor D() wywolany" << endl; }
+  ~D() { cout << "Destruktor D() wywolany" << endl; }
 };
 
 int main()
 {
   D d;
+  cout << "d.print() = ";
   d.print();
   return 0;
 }
