@@ -1,7 +1,5 @@
 #include <iostream>
-// #include "two.h"
 
-// pierwszy sposób
 extern void foo(int);
 
 int main()
