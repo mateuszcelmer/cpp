@@ -54,7 +54,7 @@ public:
 class D : public B, public C
 {
 public:
-  D() : B(44), C() { cout << "Konstruktor D() wywolany" << endl; }
+  D() : B(123), C() { cout << "Konstruktor D() wywolany" << endl; }
   ~D() { cout << "Destruktor D() wywolany" << endl; }
 };
 
