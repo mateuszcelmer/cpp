@@ -32,9 +32,15 @@ int main()
         show(vec.begin(), vec.end());
     }
 
+    cout << "\nIs sorted?:\n";
+    cout << is_sorted(arr, arr + n) << endl;
+
     cout << "\nSort:\n";
     sort(arr, arr + n);
     show(arr, n);
+
+    cout << "\nIs sorted?:\n";
+    cout << is_sorted(arr, arr + n) << endl;
 
     cout << "\nBinary_search:\n";
     int x = 22;
