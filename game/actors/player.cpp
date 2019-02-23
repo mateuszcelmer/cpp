@@ -8,12 +8,19 @@ class Player : public Actor
   public:
     Player()
     {
+        type = "player";
         shape = std::make_shared<sf::RectangleShape>(sf::Vector2f(width, height));
         (*shape).setFillColor(sf::Color(200, 100, 0));
 
         // starting position
         (*shape).move(Scene::windowSize[0] - 2 * Scene::margin - width, 2 * Scene::margin);
     };
+    // Player(const Player &player)
+    // {
+    //     shape = player.shape;
+    //     foreigners = player.foreigners;
+    //     type = player.type;
+    // };
     auto getShape()
     {
         return shape;
@@ -30,8 +37,11 @@ class Player : public Actor
     {
         move(20);
     }
-    sf::Vector2f teritory()
+    Teritory teritory()
     {
-        return sf::Vector2f();
+        Teritory ter;
+        ter.pointBegin = pair<int, int>(shape->getPosition().x, shape->getPosition().y);
+        ter.pointEnd = pair<int, int>(shape->getPosition().x + width, shape->getPosition().y + height);
+        return ter;
     }
 };

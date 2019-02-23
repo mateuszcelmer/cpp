@@ -1,3 +1,2 @@
-yPressed:
-            //     // player1.moveDown();
-            //     break;
+or (auto it = world.begin(); it != world.end(); ++it)
+        //  

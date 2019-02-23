@@ -12,6 +12,7 @@ class Ball : public Actor
     Ball() {}
     Ball(short h, short v) : horDirection{h}, verDirection{v}
     {
+        type = "ball";
         shape = std::make_shared<sf::CircleShape>(radius);
         (*shape).setFillColor(sf::Color(60, 100, 200));
         // starting position
@@ -20,7 +21,11 @@ class Ball : public Actor
     auto getShape()
     {
         return shape;
-    };
+    }
+    void makeBouncableFrom()
+    {
+        // foreigners.insert(foreigners.begin(), others.begin(), others.end());
+    }
     void bounceIfNeeded()
     {
         if ((*shape).getPosition().y > Scene::windowSize[1] - Scene::margin - radius * 2)
@@ -39,8 +44,11 @@ class Ball : public Actor
         bounceIfNeeded();
         usleep(microseconds);
     }
-    sf::Vector2f teritory()
+    Teritory teritory()
     {
-        return sf::Vector2f();
+        Teritory ter;
+        ter.pointBegin = pair<int, int>(shape->getPosition().x, shape->getPosition().y);
+        ter.pointEnd = pair<int, int>(shape->getPosition().x + 2 * radius, shape->getPosition().y + 2 * radius);
+        return ter;
     }
 };

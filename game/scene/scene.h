@@ -17,7 +17,6 @@ public:
   Scene() {}
   Scene(std::vector<int> size, const int margin)
   {
-    cout << "ddd" << endl;
     Scene::windowSize[0] = size[0];
     Scene::windowSize[1] = size[1];
     Scene::margin = margin;
