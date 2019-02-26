@@ -15,12 +15,7 @@ class Player : public Actor
         // starting position
         (*shape).move(Scene::windowSize[0] - 2 * Scene::margin - width, 2 * Scene::margin);
     };
-    // Player(const Player &player)
-    // {
-    //     shape = player.shape;
-    //     foreigners = player.foreigners;
-    //     type = player.type;
-    // };
+
     auto getShape()
     {
         return shape;

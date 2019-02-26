@@ -22,9 +22,16 @@ class Ball : public Actor
     {
         return shape;
     }
-    void makeBouncableFrom()
+    void bounceHor()
     {
-        // foreigners.insert(foreigners.begin(), others.begin(), others.end());
+        horDirection = -horDirection;
+        verDirection = -verDirection;
+        shape->move(horDirection, verDirection);
+    }
+    void bounceVer()
+    {
+        horDirection = -horDirection;
+        shape->move(1 * horDirection, 0);
     }
     void bounceIfNeeded()
     {
