@@ -16,6 +16,8 @@ class Beverage
 
 class CondimentDecorator : public Beverage
 {
+  protected:
+    shared_ptr<Beverage> beverage;
 };
 
 class Espresso : public Beverage
@@ -34,8 +36,6 @@ class HouseBlend : public Beverage
 
 class Mocha : public CondimentDecorator
 {
-    shared_ptr<Beverage> beverage;
-
   public:
     Mocha(shared_ptr<Beverage> beverage) { this->beverage = beverage; }
     string getDescription() { return beverage->getDescription() + " Mocha"; }
