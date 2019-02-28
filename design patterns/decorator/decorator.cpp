@@ -34,30 +34,30 @@ class HouseBlend : public Beverage
 
 class Mocha : public CondimentDecorator
 {
-    Beverage *beverage;
+    shared_ptr<Beverage> beverage;
 
   public:
-    Mocha(Beverage *beverage) { this->beverage = beverage; }
+    Mocha(shared_ptr<Beverage> beverage) { this->beverage = beverage; }
     string getDescription() { return beverage->getDescription() + " Mocha"; }
     double cost() { return .20 + beverage->cost(); }
 };
 
 class Soy : public CondimentDecorator
 {
-    Beverage *beverage;
+    shared_ptr<Beverage> beverage;
 
   public:
-    Soy(Beverage *beverage) { this->beverage = beverage; }
+    Soy(shared_ptr<Beverage> beverage) { this->beverage = beverage; }
     string getDescription() { return beverage->getDescription() + " Soy"; }
     double cost() { return .15 + beverage->cost(); }
 };
 
 class Whip : public CondimentDecorator
 {
-    Beverage *beverage;
+    shared_ptr<Beverage> beverage;
 
   public:
-    Whip(Beverage *beverage) { this->beverage = beverage; }
+    Whip(shared_ptr<Beverage> beverage) { this->beverage = beverage; }
     string getDescription() { return beverage->getDescription() + " Whip"; }
     double cost() { return .10 + beverage->cost(); }
 };
@@ -67,12 +67,12 @@ int main()
     shared_ptr<Beverage> beverage1 = make_shared<Espresso>();
     cout << beverage1->getDescription() << " $" << beverage1->cost() << endl;
 
-    Beverage *beverage2 = new HouseBlend();
+    shared_ptr<Beverage> beverage2 = make_shared<HouseBlend>();
     cout << beverage2->getDescription() << " $" << beverage2->cost() << endl;
-    beverage2 = new Mocha(beverage2);
-    beverage2 = new Mocha(beverage2);
-    beverage2 = new Soy(beverage2);
-    beverage2 = new Whip(beverage2);
+    beverage2 = make_shared<Mocha>(beverage2);
+    beverage2 = make_shared<Mocha>(beverage2);
+    beverage2 = make_shared<Soy>(beverage2);
+    beverage2 = make_shared<Whip>(beverage2);
     cout << beverage2->getDescription() << " $" << beverage2->cost() << endl;
 
     return 0;
