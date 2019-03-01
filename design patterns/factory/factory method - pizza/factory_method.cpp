@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <memory>
 #include <list>
 
 using namespace std;
@@ -47,6 +48,8 @@ class PizzaStore
 {
   protected:
     virtual Pizza createPizza(string type) = 0;
+
+  public:
     Pizza orderPizza(string type)
     {
         Pizza pizza;
@@ -62,7 +65,7 @@ class PizzaStore
 
 class NYPizzaStore : public PizzaStore
 {
-  public:
+  protected:
     Pizza createPizza(string type)
     {
         if (type == "cheese")
@@ -76,7 +79,7 @@ class NYPizzaStore : public PizzaStore
 
 class ChicagoPizzaStore : public PizzaStore
 {
-  public:
+  protected:
     Pizza createPizza(string type)
     {
         if (type == "cheese")
@@ -90,7 +93,7 @@ class ChicagoPizzaStore : public PizzaStore
 
 class CaliforniaPizzaStore : public PizzaStore
 {
-  public:
+  protected:
     Pizza createPizza(string type)
     {
         if (type == "cheese")
@@ -104,5 +107,11 @@ class CaliforniaPizzaStore : public PizzaStore
 
 int main()
 {
+    shared_ptr<PizzaStore> nyStore = make_shared<NYPizzaStore>();
+    shared_ptr<PizzaStore> chicagoStore = make_shared<ChicagoPizzaStore>();
+
+    Pizza pizza = nyStore->orderPizza("cheese");
+    pizza = chicagoStore->orderPizza("veggie");
+
     return 0;
 }
