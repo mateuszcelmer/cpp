@@ -1,0 +1,2 @@
+;
+    print_full("teks
