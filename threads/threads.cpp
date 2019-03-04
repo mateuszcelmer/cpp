@@ -27,7 +27,7 @@ Ways to lock:
     lck.unlock();
 
     3)
-    TheLock.lock();     // in some situations is not safe, e.g. exceptions
+    TheLock.lock();     // in some situations it is not safe, e.g. exceptions
     TheLock.unlock();
 
 */
