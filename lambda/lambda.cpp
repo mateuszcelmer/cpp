@@ -1,6 +1,10 @@
 #include <iostream>
 using namespace std;
 
+//
+//  a simple lambda
+//
+
 int main()
 {
     auto foo = [](int i) -> double { return 2 * i; };
