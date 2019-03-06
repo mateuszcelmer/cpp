@@ -45,13 +45,13 @@ void Ball::bounceVer()
 void Ball::bounceIfNeeded()
 {
     if ((*shape).getPosition().y > Scene::windowSize[1] - Scene::margin - radius * 2)
-        verDirection = -1;
+        verDirection = -verDirection;
     if ((*shape).getPosition().y < Scene::margin)
-        verDirection = 1;
+        verDirection = -verDirection;
     if ((*shape).getPosition().x > Scene::windowSize[0] - Scene::margin - radius * 2)
-        horDirection = -1;
+        horDirection = -horDirection;
     if ((*shape).getPosition().x < Scene::margin)
-        horDirection = 1;
+        horDirection = -horDirection;
 }
 void Ball::move(int microseconds)
 {

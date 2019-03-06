@@ -27,7 +27,7 @@ int main()
 
     // Balls
     vector<shared_ptr<Ball>> balls;
-    for (uint8_t i = 0; i < 4; i++)
+    for (uint8_t i = 0; i < 20; i++)
     {
         shared_ptr<Ball> ball = make_shared<Ball>();
         objects.push_back(ball);
@@ -49,9 +49,11 @@ int main()
     thread thread3(moveObstacles, &obstacles);
     thread thread4(startObstacles, &obstacles);
 
+   
     thread4.join();
     thread3.join();
     thread2.join();
     thread1.join();
+
     return 0;
 }

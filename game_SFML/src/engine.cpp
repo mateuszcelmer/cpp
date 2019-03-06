@@ -65,19 +65,23 @@ bool isCollision(Teritory t1, Teritory t2)
 //move balls
 void moveBall(vector<shared_ptr<Ball>> *balls, vector<shared_ptr<Obstacle>> *objects)
 {
-    while (true)
-    {
-        for (auto it = balls->begin(); it != balls->end(); ++it)
-        {
-            (*it)->move(2000);
-            for (auto obj = objects->begin(); obj != objects->end(); ++obj)
-                if (isCollision((*it)->teritory(), (*obj)->teritory()))
-                {
-                    (*it)->bounceHor();
-                    (*obj)->restartPosition();
-                }
-        }
-    }
+    vector<thread> th_balls;
+    for (auto b : *balls)
+        th_balls.push_back(thread([=]() {
+            while (true)
+            {
+                b->move(1000);
+                for (auto obj : *objects)
+                    if (isCollision(b->teritory(), obj->teritory()))
+                    {
+                        b->bounceHor();
+                        obj->restartPosition();
+                    }
+            }
+        }));
+
+    for (auto &i : th_balls)
+        i.join();
 }
 
 // move obstacles
@@ -88,6 +92,14 @@ void moveObstacles(vector<shared_ptr<Obstacle>> *obstacles)
         for (auto it = obstacles->begin(); it != obstacles->end(); ++it)
             (*it)->move(100);
     }
+    // vector<thread> th_obst;
+    // for (auto obs : *obstacles)
+    //     th_obst.push_back(thread([=]() {
+    //         while (true)
+    //             obs->move(2000);
+    //     }));
+    // for (auto &i : th_obst)
+    //     i.join();
 }
 
 // start a motion of each obstacle with a delay
