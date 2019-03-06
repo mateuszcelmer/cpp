@@ -11,7 +11,11 @@ SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -O3 " )
 #include
 include_directories( ./include ./src)
 
-AUX_SOURCE_DIRECTORY(./src SOURCES) 
+# add source cpp files
+# AUX_SOURCE_DIRECTORY(./src SOURCES) 
+# AUX_SOURCE_DIRECTORY(./src/actors SOURCES2) 
+# ...or with GLOB - less recommended
+FILE(GLOB_RECURSE SOURCES  ./src/*.cpp)
 
 # target
 add_executable(${THE_TARGET} ${SOURCES})
@@ -22,7 +26,7 @@ set_target_properties(${THE_TARGET} PROPERTIES COMPILE_FLAGS ${CMAKE_CXX_FLAGS})
 # external libs - shared
 # add_subdirectory( ./libs/Logger )
 # target_link_libraries(${THE_TARGET} logger )
-target_link_libraries(${THE_TARGET} -lsfml-graphics -lsfml-window -lsfml-system )
+target_link_libraries(${THE_TARGET} -lsfml-graphics -lsfml-window -lsfml-system -lpthread )
 
 # external libs - static
 # add_library(randomize STATIC IMPORTED)
