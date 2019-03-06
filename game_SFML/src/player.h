@@ -6,15 +6,15 @@
 // Player
 class Player : public Actor
 {
-  int width = 20, height = 150;
+  int width = 80, height = 20;
 
 public:
   Player();
 
   auto getShape();
   void move(int step);
-  void moveUp();
-  void moveDown();
+  void moveLeft();
+  void moveRight();
   Teritory teritory();
 };
 

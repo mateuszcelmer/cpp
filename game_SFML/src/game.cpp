@@ -18,39 +18,40 @@ int main()
     // Scene - build the scene
     Scene scene(windowSize, margin);
 
-    // objects - container of all graphical elements
+    // objects - container of all graphical elements, Actors
     vector<shared_ptr<Actor>> objects;
 
     // Player
-    shared_ptr<Player> ptr = make_shared<Player>();
-    objects.push_back(dynamic_pointer_cast<Actor>(ptr));
+    shared_ptr<Player> player = make_shared<Player>();
+    objects.push_back(player);
 
     // Balls
-    shared_ptr<Ball> ball1 = make_shared<Ball>(1, 1);
-    shared_ptr<Ball> ball2 = make_shared<Ball>(-1, -1);
-    shared_ptr<Ball> ball3 = make_shared<Ball>(-1, 1);
-    shared_ptr<Ball> ball4 = make_shared<Ball>(1, -1);
-    objects.push_back(dynamic_pointer_cast<Actor>(ball1));
-    objects.push_back(dynamic_pointer_cast<Actor>(ball2));
-    objects.push_back(dynamic_pointer_cast<Actor>(ball3));
-    objects.push_back(dynamic_pointer_cast<Actor>(ball4));
+    vector<shared_ptr<Ball>> balls;
+    for (uint8_t i = 0; i < 4; i++)
+    {
+        shared_ptr<Ball> ball = make_shared<Ball>();
+        objects.push_back(ball);
+        balls.push_back(ball);
+    }
 
     // Obstacles
+    vector<shared_ptr<Obstacle>> obstacles;
     for (size_t i = 0; i < 100; i++)
     {
         shared_ptr<Obstacle> obstacle = make_shared<Obstacle>();
-        objects.push_back(dynamic_pointer_cast<Actor>(obstacle));
+        obstacles.push_back(obstacle);
+        objects.push_back(obstacle);
     }
 
     // Threads - start the life of elements
-    thread thread1(render, &objects, &windowSize, &scene);
-    thread thread2(moveBall, &objects);
-    thread thread3(moveObstacles, &objects);
-    thread thread4(startObstacles, &objects);
+    thread thread1(render, &objects, &windowSize, &scene, &player);
+    thread thread2(moveBall, &balls, &obstacles);
+    thread thread3(moveObstacles, &obstacles);
+    thread thread4(startObstacles, &obstacles);
 
-    thread1.join();
-    thread2.join();
-    thread3.join();
     thread4.join();
+    thread3.join();
+    thread2.join();
+    thread1.join();
     return 0;
 }

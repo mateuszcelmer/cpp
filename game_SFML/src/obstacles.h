@@ -8,7 +8,7 @@ using namespace std;
 // Obstacle
 class Obstacle : public Actor
 {
-  int width = 10, height = 20;
+  int width = 10, height = 10;
   bool started = false;
 
 public:

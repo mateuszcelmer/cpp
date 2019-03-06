@@ -7,7 +7,7 @@ Player::Player()
     (*shape).setFillColor(sf::Color(200, 100, 0));
 
     // starting position
-    (*shape).move(Scene::windowSize[0] - 2 * Scene::margin - width, 2 * Scene::margin);
+    (*shape).move(Scene::windowSize[0] / 2 - 2 * Scene::margin - width / 2, Scene::windowSize[1] - Scene::margin - height);
 };
 
 auto Player::getShape()
@@ -16,13 +16,13 @@ auto Player::getShape()
 };
 void Player::move(int step)
 {
-    (*shape).move(0, step);
+    (*shape).move(step, 0);
 }
-void Player::moveUp()
+void Player::moveLeft()
 {
     move(-20);
 }
-void Player::moveDown()
+void Player::moveRight()
 {
     move(20);
 }

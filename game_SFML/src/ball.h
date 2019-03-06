@@ -8,12 +8,13 @@ using namespace std;
 // Ball
 class Ball : public Actor
 {
-  short horDirection = 1, verDirection = 1;
+  float horDirection = 1, verDirection = 1;
   short radius = 10;
 
 public:
   Ball();
-  Ball(short h, short v);
+  Ball(float h, float v);
+  void init();
   auto getShape();
   void bounceHor();
   void bounceVer();

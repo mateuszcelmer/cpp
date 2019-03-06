@@ -1,7 +1,7 @@
 // render and key control
 #include "engine.h"
 
-void render(vector<shared_ptr<Actor>> *world, vector<int> *windowSize, Scene *scene)
+void render(vector<shared_ptr<Actor>> *objects, vector<int> *windowSize, Scene *scene, shared_ptr<Player> *player)
 {
     sf::RenderWindow window(sf::VideoMode((*windowSize)[0], (*windowSize)[1]), "The Game");
     while (window.isOpen())
@@ -20,14 +20,10 @@ void render(vector<shared_ptr<Actor>> *world, vector<int> *windowSize, Scene *sc
 
             // control
             case sf::Event::KeyPressed:
-                if (event.key.code == sf::Keyboard::Up)
-                    for (auto it = world->begin(); it != world->end(); ++it)
-                        if ((*it)->getType() == "player") // złamanie zasady Liskov (z SOLID)
-                            dynamic_pointer_cast<Player>(*it)->moveUp();
-                if (event.key.code == sf::Keyboard::Down)
-                    for (auto it = world->begin(); it != world->end(); ++it)
-                        if ((*it)->getType() == "player") // złamanie zasady Liskov (z SOLID)
-                            dynamic_pointer_cast<Player>(*it)->moveDown();
+                if (event.key.code == sf::Keyboard::Left)
+                    (*player)->moveLeft();
+                if (event.key.code == sf::Keyboard::Right)
+                    (*player)->moveRight();
                 if (event.key.code == sf::Keyboard::Q)
                 {
                     window.close();
@@ -40,8 +36,12 @@ void render(vector<shared_ptr<Actor>> *world, vector<int> *windowSize, Scene *sc
         }
         window.clear();
         window.draw(scene->getFrame());
-        for (auto it = world->begin(); it != world->end(); ++it)
+        for (auto it = objects->begin(); it != objects->end(); ++it)
+        {
             window.draw(*((*it)->getShape()));
+        }
+        // window.draw(*(*(*objects)[2])->getShape());
+        // window.draw(*(*(*objects)[4])->getShape());
         window.display();
     }
 }
@@ -63,43 +63,43 @@ bool isCollision(Teritory t1, Teritory t2)
 }
 
 //move balls
-void moveBall(vector<shared_ptr<Actor>> *world)
+void moveBall(vector<shared_ptr<Ball>> *balls, vector<shared_ptr<Obstacle>> *objects)
 {
     while (true)
     {
-        for (auto it = world->begin(); it != world->end(); ++it)
-            if ((*it)->getType() == "ball") // złamanie zasady Liskov (z SOLID)
-            {
-                (*it)->move(2000);
-                for (auto it2 = world->begin(); it2 != world->end(); ++it2)
-                    if ((*it2)->getType() != "ball") // złamanie zasady Liskov (z SOLID)
-                        if (isCollision((*it)->teritory(), (*it2)->teritory()))
-                            dynamic_pointer_cast<Ball>(*it)->bounceHor();
-            }
+        for (auto it = balls->begin(); it != balls->end(); ++it)
+        {
+            (*it)->move(2000);
+            for (auto obj = objects->begin(); obj != objects->end(); ++obj)
+                if (isCollision((*it)->teritory(), (*obj)->teritory()))
+                {
+                    (*it)->bounceHor();
+                    (*obj)->restartPosition();
+                }
+        }
     }
 }
 
 // move obstacles
-void moveObstacles(vector<shared_ptr<Actor>> *world)
+void moveObstacles(vector<shared_ptr<Obstacle>> *obstacles)
 {
     while (true)
     {
-        for (auto it = world->begin(); it != world->end(); ++it)
-            if ((*it)->getType() == "obstacle") // złamanie zasady Liskov (z SOLID)
-                (*it)->move(100);
+        for (auto it = obstacles->begin(); it != obstacles->end(); ++it)
+            (*it)->move(100);
     }
 }
 
 // start a motion of each obstacle with a delay
-void startObstacles(vector<shared_ptr<Actor>> *world)
+void startObstacles(vector<shared_ptr<Obstacle>> *obstacles)
 {
     std::mt19937 rng;
     rng.seed(std::random_device()());
     std::uniform_int_distribution<std::mt19937::result_type> dist(1, 10); // distribution in range [1, 6]
-    for (auto it = world->begin(); it != world->end(); ++it)
-        if ((*it)->getType() == "obstacle") // złamanie zasady Liskov (z SOLID)
-        {
-            dynamic_pointer_cast<Obstacle>(*it)->start();
-            usleep(50000 * dist(rng));
-        }
+
+    for (auto it = obstacles->begin(); it != obstacles->end(); ++it)
+    {
+        (*it)->start();
+        usleep(50000 * dist(rng));
+    }
 }

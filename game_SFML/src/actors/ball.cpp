@@ -2,15 +2,31 @@
 
 using namespace std;
 
-Ball::Ball() {}
-Ball::Ball(short h, short v) : horDirection{h}, verDirection{v}
+Ball::Ball()
+{
+    init();
+}
+Ball::Ball(float h, float v) : horDirection{h}, verDirection{v}
+{
+    init();
+};
+void Ball::init()
 {
     type = "ball";
     shape = std::make_shared<sf::CircleShape>(radius);
     (*shape).setFillColor(sf::Color(60, 100, 200));
-    // starting position
-    (*shape).move(Scene::windowSize[0] / 2, Scene::windowSize[1] / 2);
-};
+
+    // starting position random
+    std::mt19937 rng;
+    rng.seed(std::random_device()());
+    std::uniform_int_distribution<std::mt19937::result_type> dist(-20, 20);
+    (*shape).move(Scene::windowSize[0] / 2 + dist(rng), Scene::windowSize[1] / 2 + dist(rng));
+
+    // starting direction random
+    dist = std::uniform_int_distribution<std::mt19937::result_type>(0, 200);
+    horDirection = ((float)dist(rng) - 100) / 100;
+    verDirection = ((float)dist(rng) - 100) / 100;
+}
 auto Ball::getShape()
 {
     return shape;

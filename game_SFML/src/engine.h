@@ -7,17 +7,19 @@
 #include "player.h"
 #include "ball.h"
 #include "obstacles.h"
+#include <thread>
+#include <chrono>
 using namespace std;
 
 // render and key control
-void render(vector<shared_ptr<Actor>> *world, vector<int> *windowSize, Scene *scene);
+void render(vector<shared_ptr<Actor>> *objects, vector<int> *windowSize, Scene *scene, shared_ptr<Player> *player);
 // check the collision of the objects
 bool isCollision(Teritory t1, Teritory t2);
 //move balls
-void moveBall(vector<shared_ptr<Actor>> *world);
+void moveBall(vector<shared_ptr<Ball>> *balls, vector<shared_ptr<Obstacle>> *);
 // move obstacles
-void moveObstacles(vector<shared_ptr<Actor>> *world);
+void moveObstacles(vector<shared_ptr<Obstacle>> *obstacles);
 // start a motion of each obstacle with a delay
-void startObstacles(vector<shared_ptr<Actor>> *world);
+void startObstacles(vector<shared_ptr<Obstacle>> *obstacles);
 
 #endif
