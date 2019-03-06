@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
-#include "scene/scene.h"
-#include "actors/actor.h"
+#include "scene.h"
+#include "actor.h"
 #include "actors/player.cpp"
 #include "actors/ball.cpp"
 #include "actors/obstacles.cpp"
@@ -101,7 +101,7 @@ void moveObstacles(vector<shared_ptr<Actor>> &world)
     {
         for (auto it = world.begin(); it != world.end(); ++it)
             if ((*it)->getType() == "obstacle") // złamanie zasady Liskov (z SOLID)
-                (*it)->move(10000);
+                (*it)->move(100);
     }
 }
 
@@ -115,7 +115,7 @@ void startObstacles(vector<shared_ptr<Actor>> &world)
         if ((*it)->getType() == "obstacle") // złamanie zasady Liskov (z SOLID)
         {
             dynamic_pointer_cast<Obstacle>(*it)->start();
-            usleep(500000 * dist(rng));
+            usleep(50000 * dist(rng));
         }
 }
 
@@ -139,7 +139,7 @@ int main()
     world.push_back(dynamic_pointer_cast<Actor>(ball4));
 
     // Obstacles
-    for (size_t i = 0; i < 10; i++)
+    for (size_t i = 0; i < 100; i++)
     {
         shared_ptr<Obstacle> obstacle = make_shared<Obstacle>();
         world.push_back(dynamic_pointer_cast<Actor>(obstacle));
