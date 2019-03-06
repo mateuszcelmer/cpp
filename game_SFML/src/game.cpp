@@ -4,7 +4,6 @@
 #include "actors/player.cpp"
 #include "actors/ball.cpp"
 #include "actors/obstacles.cpp"
-#include "utils/getche.cpp"
 #include <vector>
 
 using namespace std;
@@ -16,7 +15,7 @@ const int margin = 10;
 Scene scene(windowSize, margin);
 
 // render and key control
-void render(vector<shared_ptr<Actor>> &world)
+void render(vector<shared_ptr<Actor>> &world, vector<int> windowSize)
 {
     sf::RenderWindow window(sf::VideoMode(windowSize[0], windowSize[1]), "The Game");
     while (window.isOpen())

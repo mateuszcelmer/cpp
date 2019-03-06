@@ -23,7 +23,7 @@ public:
 
     sf::ConvexShape frame = makeFrame();
     this->frame = frame;
-  };
+  }
   sf::ConvexShape getFrame() { return frame; }
   sf::ConvexShape makeFrame()
   {
@@ -39,8 +39,5 @@ public:
     return convex;
   }
 };
-
-int Scene::windowSize[];
-int Scene::margin;
 
 #endif // !__scene_h_

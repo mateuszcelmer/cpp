@@ -1,4 +1,4 @@
-#include "actor.h"
+#include "../actor.h"
 
 using namespace std;
 

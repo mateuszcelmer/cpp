@@ -1,4 +1,4 @@
-#include "actor.h"
+#include "../actor.h"
 
 // Player
 class Player : public Actor

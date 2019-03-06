@@ -2,7 +2,7 @@
 #define __actor_h__
 
 #include <SFML/Graphics.hpp>
-#include "../scene/scene.h"
+#include "scene.h"
 #include <iostream>
 #include <unistd.h>
 #include <random>
