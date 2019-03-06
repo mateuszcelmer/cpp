@@ -1,5 +1,0 @@
-{
-  "code-runner.executorMap": {
-    "cpp": "g++ -lpthread $fullFileName && ./a.out"
-  }
-}
