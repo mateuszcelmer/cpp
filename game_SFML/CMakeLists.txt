@@ -23,3 +23,5 @@ add_executable(${THE_TARGET} ./src/game.cpp ./src/actors/ball.cpp ./src/actors/o
 # add_library(randomize STATIC IMPORTED)
 # set_property(TARGET randomize PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/lib/Randomize/librandomize.a)
 # target_link_libraries(${THE_TARGET} randomize )
+
+#end of the CMakeLists.txt
