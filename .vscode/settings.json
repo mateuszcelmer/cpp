@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "ostream": "cpp"
-    },
-
-    "code-runner.executorMap": {
-        "cpp": "cd $dir && g++ -lmysqlclient $fileName -o $fileNameWithoutExt && $dir$fileNameWithoutExt"
-    }
-}
