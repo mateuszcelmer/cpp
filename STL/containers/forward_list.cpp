@@ -6,8 +6,8 @@ int main()
 {
     forward_list<int> flist1;
     forward_list<int> flist2;
-    flist1.assign({9, 8, 7});
-    flist2.assign(100, 2);
+    flist1.assign({9, 8, 7, 6, 5, 4});
+    flist2.assign(10, 2);
 
     cout << "Elementy pierwszej f_listy: ";
     for (auto &&i : flist1)
