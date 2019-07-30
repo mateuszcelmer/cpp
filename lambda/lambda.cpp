@@ -1,19 +1,38 @@
 #include <iostream>
+#include <algorithm>
+#include <vector>
+
 using namespace std;
 
-//
-//  a simple lambda
-//
+// passing outer scope elements inside lambda functions
 
 int main()
 {
-    auto foo = [](int i) -> double { return 2 * i; };
-    double d = foo(7);
-    cout << "d = " << d << endl;
+    vector<int> v = {1, 2, 3, 4, 5};
+    int coef = 5;
 
-    cout << "Value of __LINE__ : " << __LINE__ << endl;
-    cout << "Value of __FILE__ : " << __FILE__ << endl;
-    cout << "Value of __DATE__ : " << __DATE__ << endl;
-    cout << "Value of __TIME__ : " << __TIME__ << endl;
+    cout << "\noutside the scope coef = (" << coef << "), ";
+    cout << "\n\nfor_each(begin(v), end(v), [](int x) {" << endl;
+    for_each(begin(v), end(v), [](int x) {
+        cout << x << " ( ), ";
+        // cannot access: read or write coef
+        // cout << "coef: " << coef << endl;
+        // coef = 2;
+    });
+
+    cout << "\n\nfor_each(begin(v), end(v), [=](int x) {" << endl;
+    for_each(begin(v), end(v), [=](int x) {
+        cout << x << " ";
+        cout << "(" << coef << "), ";
+        // coef = 2; // cannot modify
+    });
+
+    cout << "\n\nfor_each(begin(v), end(v), [&](int x) {" << endl;
+    for_each(begin(v), end(v), [&](int x) {
+        cout << x << " ";
+        coef = 2;
+        cout << "(" << coef << "), ";
+    });
+    cout << "\n\noutside the scope coef = (" << coef << "), ";
     return 0;
 }
