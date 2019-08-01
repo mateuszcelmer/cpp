@@ -12,6 +12,5 @@ authAndAccess(Container &&c, Index i)
 
 int main()
 {
-
     return 0;
 }
