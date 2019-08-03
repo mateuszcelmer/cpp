@@ -19,7 +19,7 @@ int main()
     std::cout << counter.load() << std::endl;
 
     counter = 123;
-    std::cout << counter.load() << std::endl;
+    std::cout << counter << std::endl;
 
     return 0;
 }
