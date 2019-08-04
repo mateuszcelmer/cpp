@@ -23,7 +23,7 @@ union U {
 
 int main()
 {
-    vector<any> v{5, 3.14, "Hello!@#$%^", S(), U()};
+    std::vector<std::any> v{5, 3.14, "Hello!@#$%^", S(), U()};
 
     for (auto &&i : v)
         cout << i.type().name() << "\n";
