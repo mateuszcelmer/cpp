@@ -44,8 +44,6 @@ public:
 
 class Soy : public CondimentDecorator
 {
-  shared_ptr<Beverage> beverage;
-
 public:
   Soy(shared_ptr<Beverage> beverage) { this->beverage = beverage; }
   string getDescription() { return beverage->getDescription() + " Soy"; }
@@ -54,8 +52,6 @@ public:
 
 class Whip : public CondimentDecorator
 {
-  shared_ptr<Beverage> beverage;
-
 public:
   Whip(shared_ptr<Beverage> beverage) { this->beverage = beverage; }
   string getDescription() { return beverage->getDescription() + " Whip"; }

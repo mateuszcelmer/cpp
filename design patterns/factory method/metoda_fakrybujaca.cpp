@@ -17,7 +17,7 @@ class Triangle : public IShape
 
 class ShapeFactory
 {
-  public:
+public:
     virtual IShape *createShape() = 0;
 };
 
@@ -40,7 +40,10 @@ class TriangleFactory : public ShapeFactory
 int main()
 {
     ShapeFactory *shapeFactory = new SquareFactory();
-
     IShape *square = (*shapeFactory).createShape();
+
+    ShapeFactory *triangleFactory = new TriangleFactory();
+    IShape *triangle = triangleFactory->createShape();
+
     return 0;
 }
