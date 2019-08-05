@@ -26,11 +26,21 @@ int main()
     std::vector<std::any> v{5, 3.14, "Hello!@#$%^", S(), U()};
 
     for (auto &&i : v)
-        cout << i.type().name() << "\n";
+        std::cout << i.type().name() << "\n";
 
-    cout << any_cast<int>(v[0]) << endl;
-    cout << any_cast<double>(v[1]) << endl;
-    cout << any_cast<const char *>(v[2]) << endl;
+    for (auto &&i : v)
+    {
+        if (i.type() == typeid(int))
+            std::cout << "int detected: " << std::any_cast<int>(i) << "\n";
+        if (i.type() == typeid(double))
+            std::cout << "double detected: " << std::any_cast<double>(i) << "\n";
+        if (i.type() == typeid(const char *))
+            std::cout << "const char * detected: " << std::any_cast<const char *>(i) << "\n";
+    }
+
+    std::cout << std::any_cast<int>(v[0]) << std::endl;
+    std::cout << std::any_cast<double>(v[1]) << std::endl;
+    std::cout << std::any_cast<const char *>(v[2]) << std::endl;
 
     return 0;
 }
