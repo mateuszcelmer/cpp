@@ -3,10 +3,12 @@
 #include <condition_variable>
 #include <iostream>
 #include <thread>
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 std::mutex mutex_;
 std::condition_variable condVar;
-
 bool dataReady{false};
 
 void waitingForWork()
@@ -19,6 +21,7 @@ void waitingForWork()
 
 void setDataReady()
 {
+    std::this_thread::sleep_for(5s);
     {
         std::lock_guard<std::mutex> lck(mutex_);
         dataReady = true;
