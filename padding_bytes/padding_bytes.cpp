@@ -40,5 +40,6 @@ int main()
     std::cout << "sizeof(B) : " << sizeof(B) << std::endl;
     std::cout << "sizeof(C) : " << sizeof(C) << std::endl;
     std::cout << "sizeof(D) : " << sizeof(D) << std::endl;
+    std::cout << "sizeof(int) : " << sizeof(int) << ", sizeof(char) : " << sizeof(char) << std::endl;
     return 0;
 }
