@@ -1,6 +1,6 @@
 #include <iostream>
 #include <gtest/gtest.h>
-#include "fun.cpp"
+#include "fun.cpp" // intentionally - for quick run with CodeRunner
 
 using namespace std;
 
