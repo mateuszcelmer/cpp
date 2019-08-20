@@ -11,10 +11,10 @@ int main()
         v.pop_back();
     std::cout << v.size() << std::endl;
     std::cout << v.capacity() << std::endl;
- 
+
     // idiom
     std::vector<int>().swap(v);
-    
+
     std::cout << "---" << std::endl;
     std::cout << v.size() << std::endl;
     std::cout << v.capacity() << std::endl;
