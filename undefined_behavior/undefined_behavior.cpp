@@ -27,3 +27,18 @@ char str[] = "string literal";
 str[0] = 'S';
 
  */
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    auto i = 10;
+    auto res = i++ + ++i; // an undefined behavior
+
+    std::cout << res << std::endl; // 22
+    std::cout << i << std::endl;   // 12
+
+    return 0;
+}
