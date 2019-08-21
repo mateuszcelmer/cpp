@@ -26,10 +26,8 @@ struct X final
 struct Y : X
 { // error -- base 'A' is marked 'final'
 };
-`
 
-    int
-    main()
+int main()
 {
 
     return 0;
