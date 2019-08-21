@@ -2,11 +2,6 @@
 
 /*
 
-Only declarations are sufficient to trigger SFINAE rule in the compiler. 
-Those functions themselves must be templates, however. That is, a class template with regular 
-functions will not participate in SFINAE. The functions that participate in SFINAE must be templates.
-
-
 Strictly, SFINAE is a language feature and not an idiom. However, this language feature is exploited in 
 a very idiomatic fashion using enable-if.
 
@@ -17,4 +12,7 @@ the instantiation of a function template, the instantiation is removed from the 
 set instead of causing a compilation error. As long as there is one and only one function to which 
 the call can be dispatched, the compiler issues no errors.
 
+Only declarations are sufficient to trigger SFINAE rule in the compiler. 
+Those functions themselves must be templates, however. That is, a class template with regular 
+functions will not participate in SFINAE. The functions that participate in SFINAE must be templates.
  */

@@ -31,7 +31,7 @@ struct Fibb<1>
 
 int main()
 {
-    constexpr auto n = 30;
+    constexpr auto n = 13;
     std::cout << "Fibb " << n << " : " << Fibb<n>::val << std::endl;
 
     return 0;
