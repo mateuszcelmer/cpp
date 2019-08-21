@@ -6,9 +6,9 @@ using namespace std;
 int main()
 {
     // Time complexity of
-    // map operations is O(Log n)
-    // while for
     // unordered_set, it is O(1) on average.
+    // while for
+    // map operations is O(Log n)
 
     unordered_map<string, int> umap;
 
