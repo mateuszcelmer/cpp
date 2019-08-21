@@ -3,7 +3,6 @@
 
 int main()
 {
-
     // unique_ptr
 
     int n = 50;
@@ -18,6 +17,13 @@ int main()
         *val = 22;
         std::cout << *val << std::endl;
         std::unique_ptr<int[]> arr = std::make_unique<int[]>(55);
+    }
+    { // unique_ptr is nullptr after std::move
+        std::unique_ptr<int> ptr1{new int{2}};
+        std::unique_ptr<int> ptr2{std::move(ptr1)};
+        std::cout << "unique_ptr after std::move => ptr2{std::move(ptr1)};" << std::endl;
+        std::cout << "(ptr1 == nullptr) : " << (ptr1 == nullptr) << std::endl; // 1
+        std::cout << "(ptr2 == nullptr) : " << (ptr2 == nullptr) << std::endl; // 0
     }
 
     // shared_ptr
