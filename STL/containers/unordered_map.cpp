@@ -28,8 +28,10 @@ int main()
         cout << "Manat not found\n"
              << endl;
     else
-        cout << "Manat found\n"
+        cout << "\nManat found\n"
              << endl;
+
+    umap.erase(umap.find("Manat"));
 
     unordered_map<string, int>::iterator it;
 
