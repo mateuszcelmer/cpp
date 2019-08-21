@@ -16,5 +16,12 @@ int main()
     cout << v2 << endl;
     cout << v3 << endl;
 
+    // ---
+    std::cout << std::endl;
+    auto player = std::make_tuple(12, "asdasd", std::string{"sdasdasdasd"});
+    std::cout << std::get<0>(player) << std::endl;
+    std::cout << std::get<1>(player) << std::endl;
+    std::cout << std::get<2>(player) << std::endl;
+
     return 0;
 }
