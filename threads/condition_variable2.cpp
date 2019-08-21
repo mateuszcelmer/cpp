@@ -32,6 +32,7 @@ int main()
         threads[i] = std::thread(print_id, i);
 
     std::cout << "10 threads ready to race..." << std::endl;
+    std::this_thread::sleep_for(3s);
     go();
 
     for (auto &th : threads)

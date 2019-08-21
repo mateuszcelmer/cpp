@@ -13,20 +13,23 @@ bool dataReady{false};
 
 void waitingForWork()
 {
-    std::cout << "Waiting " << std::endl;
+    std::cout << "Waiting for work..." << std::endl;
     std::unique_lock<std::mutex> lck(mutex_);
     condVar.wait(lck, [] { return dataReady; });
-    std::cout << "Running " << std::endl;
+    std::cout << "Running... " << std::endl;
+    std::this_thread::sleep_for(4s);
+    std::cout << "Work done!" << std::endl;
 }
 
 void setDataReady()
 {
-    std::this_thread::sleep_for(5s);
+    std::this_thread::sleep_for(4s);
     {
         std::lock_guard<std::mutex> lck(mutex_);
         dataReady = true;
     }
     std::cout << "Data prepared" << std::endl;
+    std::this_thread::sleep_for(1s);
     condVar.notify_one();
 }
 
