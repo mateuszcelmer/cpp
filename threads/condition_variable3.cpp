@@ -30,7 +30,7 @@ void setDataReady()
     }
     std::cout << "Data prepared" << std::endl;
     std::this_thread::sleep_for(1s);
-    condVar.notify_one();
+    condVar.notify_all();
 }
 
 int main()
