@@ -13,7 +13,7 @@ public:
 int main()
 {
     A a;
-    std::cout << "asd" << std::endl;
+    std::cout << "asdefg" << std::endl;
     auto &&c = std::move(a);
     auto &d = a;
     d.x = 5;
