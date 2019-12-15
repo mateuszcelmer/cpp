@@ -1,7 +1,7 @@
 // render and key control
 #include "engine.h"
 
-void render(vector<shared_ptr<Actor>> *objects, vector<int> *windowSize, Scene *scene, shared_ptr<Player> *player)
+void render(vector<shared_ptr<Object>> *objects, vector<int> *windowSize, Scene *scene, shared_ptr<Player> *player)
 {
     sf::RenderWindow window(sf::VideoMode((*windowSize)[0], (*windowSize)[1]), "The Game");
     while (window.isOpen())

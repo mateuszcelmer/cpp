@@ -4,10 +4,10 @@ Player::Player()
 {
     type = "player";
     shape = std::make_shared<sf::RectangleShape>(sf::Vector2f(width, height));
-    (*shape).setFillColor(sf::Color(200, 100, 0));
+    shape->setFillColor(sf::Color(200, 100, 0));
 
     // starting position
-    (*shape).move(Scene::windowSize[0] / 2 - 2 * Scene::margin - width / 2, Scene::windowSize[1] - Scene::margin - height);
+    shape->move(Scene::windowSize[0] / 2 - 2 * Scene::margin - width / 2, Scene::windowSize[1] - Scene::margin - height);
 };
 
 auto Player::getShape()
@@ -16,7 +16,7 @@ auto Player::getShape()
 };
 void Player::move(int step)
 {
-    (*shape).move(step, 0);
+    shape->move(step, 0);
 }
 void Player::moveLeft()
 {

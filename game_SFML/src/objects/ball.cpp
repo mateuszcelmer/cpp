@@ -14,13 +14,13 @@ void Ball::init()
 {
     type = "ball";
     shape = std::make_shared<sf::CircleShape>(radius);
-    (*shape).setFillColor(sf::Color(60, 100, 200));
+    shape->setFillColor(sf::Color(60, 100, 200));
 
     // starting position random
     std::mt19937 rng;
     rng.seed(std::random_device()());
     std::uniform_int_distribution<std::mt19937::result_type> dist(-20, 20);
-    (*shape).move(Scene::windowSize[0] / 2 + dist(rng), Scene::windowSize[1] / 2 + dist(rng));
+    shape->move(Scene::windowSize[0] / 2 + dist(rng), Scene::windowSize[1] / 2 + dist(rng));
 
     // starting direction random
     dist = std::uniform_int_distribution<std::mt19937::result_type>(0, 200);
@@ -44,19 +44,19 @@ void Ball::bounceVer()
 }
 void Ball::bounceIfNeeded()
 {
-    if ((*shape).getPosition().y > Scene::windowSize[1] - Scene::margin - radius * 2)
+    if (shape->getPosition().y > Scene::windowSize[1] - Scene::margin - radius * 2)
         verDirection = -verDirection;
-    if ((*shape).getPosition().y < Scene::margin)
+    if (shape->getPosition().y < Scene::margin)
         verDirection = -verDirection;
-    if ((*shape).getPosition().x > Scene::windowSize[0] - Scene::margin - radius * 2)
+    if (shape->getPosition().x > Scene::windowSize[0] - Scene::margin - radius * 2)
         horDirection = -horDirection;
-    if ((*shape).getPosition().x < Scene::margin)
+    if (shape->getPosition().x < Scene::margin)
         horDirection = -horDirection;
 }
 void Ball::move(int microseconds)
 {
     int step = 1;
-    (*shape).move(step * horDirection, step * verDirection);
+    shape->move(step * horDirection, step * verDirection);
     bounceIfNeeded();
     usleep(microseconds);
 }

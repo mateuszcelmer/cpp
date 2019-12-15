@@ -13,7 +13,7 @@ include_directories( ./include ./src)
 
 # add source cpp files
 # AUX_SOURCE_DIRECTORY(./src SOURCES) 
-# AUX_SOURCE_DIRECTORY(./src/actors SOURCES2) 
+# AUX_SOURCE_DIRECTORY(./src/objects SOURCES2) 
 # ...or with GLOB - less recommended
 FILE(GLOB_RECURSE SOURCES  ./src/*.cpp)
 

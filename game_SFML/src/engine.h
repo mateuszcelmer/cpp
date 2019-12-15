@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <memory>
-#include "actor.h"
+#include "object.h"
 #include "player.h"
 #include "ball.h"
 #include "obstacles.h"
@@ -12,7 +12,7 @@
 using namespace std;
 
 // render and key control
-void render(vector<shared_ptr<Actor>> *objects, vector<int> *windowSize, Scene *scene, shared_ptr<Player> *player);
+void render(vector<shared_ptr<Object>> *objects, vector<int> *windowSize, Scene *scene, shared_ptr<Player> *player);
 // check the collision of the objects
 bool isCollision(Teritory t1, Teritory t2);
 //move balls

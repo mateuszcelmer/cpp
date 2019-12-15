@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "engine.h"
 #include "scene.h"
-#include "actor.h"
+#include "object.h"
 #include "player.h"
 #include "ball.h"
 #include "obstacles.h"
@@ -18,8 +18,8 @@ int main()
     // Scene - build the scene
     Scene scene(windowSize, margin);
 
-    // objects - container of all graphical elements, Actors
-    vector<shared_ptr<Actor>> objects;
+    // objects - container of all graphical elements, Objects
+    vector<shared_ptr<Object>> objects;
 
     // Player
     shared_ptr<Player> player = make_shared<Player>();
@@ -49,7 +49,6 @@ int main()
     thread thread3(moveObstacles, &obstacles);
     thread thread4(startObstacles, &obstacles);
 
-   
     thread4.join();
     thread3.join();
     thread2.join();

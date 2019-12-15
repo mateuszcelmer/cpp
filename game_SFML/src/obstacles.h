@@ -1,12 +1,12 @@
 #ifndef __obstacles_h__
 #define __obstacles_h__
 
-#include "actor.h"
+#include "object.h"
 
 using namespace std;
 
 // Obstacle
-class Obstacle : public Actor
+class Obstacle : public Object
 {
   int width = 10, height = 10;
   bool started = false;

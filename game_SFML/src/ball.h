@@ -1,12 +1,12 @@
-#ifndef __ball_h__
-#define __ball_h__
+#ifndef ball_h__
+#define ball_h__
 
-#include "actor.h"
+#include "object.h"
 
 using namespace std;
 
 // Ball
-class Ball : public Actor
+class Ball : public Object
 {
   float horDirection = 1, verDirection = 1;
   short radius = 10;

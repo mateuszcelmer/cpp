@@ -1,5 +1,5 @@
-#ifndef __actor_h__
-#define __actor_h__
+#ifndef __Object_h__
+#define __Object_h__
 
 #include <SFML/Graphics.hpp>
 #include "scene.h"
@@ -15,11 +15,10 @@ struct Teritory
   pair<int, int> pointBegin, pointEnd;
 };
 
-class Actor
+class Object
 {
 protected:
   std::shared_ptr<sf::Shape> shape;
-  vector<Actor> foreigners;
   string type;
 
 public:
@@ -28,7 +27,7 @@ public:
   shared_ptr<sf::Shape> getShape() { return shape; }
   string getType() { return type; }
 
-  Actor() {}
+  Object() {}
 };
 
-#endif // !__actor_h__
+#endif // !__Object_h__
