@@ -12,22 +12,34 @@
 
 struct Teritory
 {
-  pair<int, int> pointBegin, pointEnd;
+  std::pair<int, int> pointBegin, pointEnd;
 };
 
 class Object
 {
 protected:
-  std::shared_ptr<sf::Shape> shape;
-  string type;
+  std::string m_type;
 
 public:
-  virtual void move(int ms = 0) = 0;
-  virtual Teritory teritory() = 0;
-  shared_ptr<sf::Shape> getShape() { return shape; }
-  string getType() { return type; }
+  std::shared_ptr<sf::Shape> m_shape;
+  virtual Teritory getTeritory() const = 0;
+  auto getShape() { return m_shape; }
+  auto getType() { return m_type; }
 
   Object() {}
 };
+
+class Moveable
+{
+  int m_stepDelay_us = 10;
+
+public:
+  virtual void move() = 0;
+  int getStepDelay() { return m_stepDelay_us; }
+  void setStepDelay(int delayInMicroseconds) { m_stepDelay_us = delayInMicroseconds; }
+};
+
+using objects_t = std::vector<std::shared_ptr<Object>>;
+using moveables_t = std::vector<std::shared_ptr<Moveable>>;
 
 #endif // !__Object_h__

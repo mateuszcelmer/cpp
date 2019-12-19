@@ -6,16 +6,15 @@
 // Player
 class Player : public Object
 {
-  int width = 80, height = 20;
+  int m_width = 80, m_height = 20;
 
 public:
   Player();
 
-  auto getShape();
-  void move(int step);
   void moveLeft();
   void moveRight();
-  Teritory teritory();
+  void move(int);
+  Teritory getTeritory() const override;
 };
 
 #endif

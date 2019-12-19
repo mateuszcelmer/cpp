@@ -1,22 +1,18 @@
-#include "../player.h"
+#include "player.h"
 
 Player::Player()
 {
-    type = "player";
-    shape = std::make_shared<sf::RectangleShape>(sf::Vector2f(width, height));
-    shape->setFillColor(sf::Color(200, 100, 0));
+    m_type = "player";
+    m_shape = std::make_shared<sf::RectangleShape>(sf::Vector2f(m_width, m_height));
+    m_shape->setFillColor(sf::Color(200, 100, 0));
 
     // starting position
-    shape->move(Scene::windowSize[0] / 2 - 2 * Scene::margin - width / 2, Scene::windowSize[1] - Scene::margin - height);
+    m_shape->move(Scene::m_windowSize[0] / 2 - 2 * Scene::m_margin - m_width / 2, Scene::m_windowSize[1] - Scene::m_margin - m_height);
 };
 
-auto Player::getShape()
-{
-    return shape;
-};
 void Player::move(int step)
 {
-    shape->move(step, 0);
+    m_shape->move(step, 0);
 }
 void Player::moveLeft()
 {
@@ -26,10 +22,10 @@ void Player::moveRight()
 {
     move(20);
 }
-Teritory Player::teritory()
+Teritory Player::getTeritory() const
 {
     Teritory ter;
-    ter.pointBegin = pair<int, int>(shape->getPosition().x, shape->getPosition().y);
-    ter.pointEnd = pair<int, int>(shape->getPosition().x + width, shape->getPosition().y + height);
+    ter.pointBegin = std::pair<int, int>(m_shape->getPosition().x, m_shape->getPosition().y);
+    ter.pointEnd = std::pair<int, int>(m_shape->getPosition().x + m_width, m_shape->getPosition().y + m_height);
     return ter;
 }

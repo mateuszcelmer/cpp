@@ -8,49 +8,52 @@
 #include <vector>
 #include <thread>
 
-using namespace std;
+template <class T>
+void loadBallBounceables(T &t)
+{
+    auto temp = std::make_unique<objects_t>();
+    std::for_each(std::cbegin(t), std::cend(t), [&temp](auto &ptr) {
+        temp->push_back(ptr);
+    });
+    Ball::loadBounceables(std::move(temp));
+}
 
 int main()
 {
-    vector<int> windowSize = {1000, 1000};
-    const int margin = 10;
+    Scene scene;
 
-    // Scene - build the scene
-    Scene scene(windowSize, margin);
+    objects_t objects;
+    moveables_t moveables;
+    obstacles_t obstacles;
+    auto player = std::make_shared<Player>();
 
-    // objects - container of all graphical elements, Objects
-    vector<shared_ptr<Object>> objects;
-
-    // Player
-    shared_ptr<Player> player = make_shared<Player>();
     objects.push_back(player);
-
-    // Balls
-    vector<shared_ptr<Ball>> balls;
-    for (uint8_t i = 0; i < 20; i++)
-    {
-        shared_ptr<Ball> ball = make_shared<Ball>();
-        objects.push_back(ball);
-        balls.push_back(ball);
-    }
-
     // Obstacles
-    vector<shared_ptr<Obstacle>> obstacles;
     for (size_t i = 0; i < 100; i++)
     {
-        shared_ptr<Obstacle> obstacle = make_shared<Obstacle>();
+        auto obstacle = std::make_shared<Obstacle>();
         obstacles.push_back(obstacle);
         objects.push_back(obstacle);
+        moveables.push_back(obstacle);
+    }
+    // Balls
+    std::vector<std::shared_ptr<Ball>> balls;
+    for (uint8_t i = 0; i < 20; i++)
+    {
+        auto ball = std::make_shared<Ball>();
+        balls.push_back(ball);
+        objects.push_back(ball);
+        moveables.push_back(ball);
     }
 
+    loadBallBounceables(obstacles);
+
     // Threads - start the life of elements
-    thread thread1(render, &objects, &windowSize, &scene, &player);
-    thread thread2(moveBall, &balls, &obstacles);
-    thread thread3(moveObstacles, &obstacles);
-    thread thread4(startObstacles, &obstacles);
+    std::thread thread1([&objects, &scene, &player] { render(objects, scene, player); });
+    std::thread thread2(moveObjects, &moveables);
+    std::thread thread4([&obstacles] { startObjects(obstacles); });
 
     thread4.join();
-    thread3.join();
     thread2.join();
     thread1.join();
 

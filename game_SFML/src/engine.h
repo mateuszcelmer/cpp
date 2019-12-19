@@ -9,17 +9,26 @@
 #include "obstacles.h"
 #include <thread>
 #include <chrono>
-using namespace std;
 
 // render and key control
-void render(vector<shared_ptr<Object>> *objects, vector<int> *windowSize, Scene *scene, shared_ptr<Player> *player);
+void render(objects_t &objects, Scene &scene, std::shared_ptr<Player> player);
 // check the collision of the objects
 bool isCollision(Teritory t1, Teritory t2);
 //move balls
-void moveBall(vector<shared_ptr<Ball>> *balls, vector<shared_ptr<Obstacle>> *);
+void moveBall(std::vector<std::shared_ptr<Ball>> *balls, std::vector<std::shared_ptr<Obstacle>> *);
 // move obstacles
-void moveObstacles(vector<shared_ptr<Obstacle>> *obstacles);
+void moveObstacles(std::shared_ptr<std::vector<std::shared_ptr<Object>>> *obstacles);
 // start a motion of each obstacle with a delay
-void startObstacles(vector<shared_ptr<Obstacle>> *obstacles);
+void startObstacles(std::shared_ptr<std::vector<std::shared_ptr<Object>>> &obstacles);
 
+template <class T>
+void startObjects(T &objects)
+{
+    std::for_each(std::begin(objects), std::end(objects),
+                  [](auto &ptrToObject) {
+                      ptrToObject->start();
+                  });
+}
+
+void moveObjects(std::vector<std::shared_ptr<Moveable>> *moveables);
 #endif

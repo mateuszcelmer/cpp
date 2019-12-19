@@ -1,9 +1,9 @@
 // render and key control
 #include "engine.h"
 
-void render(vector<shared_ptr<Object>> *objects, vector<int> *windowSize, Scene *scene, shared_ptr<Player> *player)
+void render(objects_t &objects, Scene &scene, std::shared_ptr<Player> player)
 {
-    sf::RenderWindow window(sf::VideoMode((*windowSize)[0], (*windowSize)[1]), "The Game");
+    sf::RenderWindow window(sf::VideoMode(scene.m_windowSize[0], scene.m_windowSize[1]), "The Game");
     while (window.isOpen())
     {
         sf::Event event;
@@ -21,9 +21,9 @@ void render(vector<shared_ptr<Object>> *objects, vector<int> *windowSize, Scene 
             // control
             case sf::Event::KeyPressed:
                 if (event.key.code == sf::Keyboard::Left)
-                    (*player)->moveLeft();
+                    player->moveLeft();
                 if (event.key.code == sf::Keyboard::Right)
-                    (*player)->moveRight();
+                    player->moveRight();
                 if (event.key.code == sf::Keyboard::Q)
                 {
                     window.close();
@@ -35,8 +35,8 @@ void render(vector<shared_ptr<Object>> *objects, vector<int> *windowSize, Scene 
             }
         }
         window.clear();
-        window.draw(scene->getFrame());
-        for (auto it = objects->begin(); it != objects->end(); ++it)
+        window.draw(scene.getFrame());
+        for (auto it = objects.begin(); it != objects.end(); ++it)
         {
             window.draw(*((*it)->getShape()));
         }
@@ -46,72 +46,66 @@ void render(vector<shared_ptr<Object>> *objects, vector<int> *windowSize, Scene 
     }
 }
 
-// check the collision of the objects
-bool isCollision(Teritory t1, Teritory t2)
+void moveObjects(std::vector<std::shared_ptr<Moveable>> *moveables)
 {
-    if ((t1.pointBegin.first <= t2.pointBegin.first && t1.pointBegin.second <= t2.pointBegin.second && t1.pointEnd.first >= t2.pointBegin.first && t1.pointEnd.second >= t2.pointBegin.second) ||
-        (t1.pointBegin.first <= t2.pointEnd.first && t1.pointBegin.second <= t2.pointEnd.second && t1.pointEnd.first >= t2.pointEnd.first && t1.pointEnd.second >= t2.pointEnd.second) ||
-        (t1.pointBegin.first <= t2.pointEnd.first && t1.pointEnd.second >= t2.pointBegin.second && t1.pointEnd.first >= t2.pointEnd.first && t1.pointBegin.second <= t2.pointBegin.second) ||
-        (t1.pointBegin.first <= t2.pointBegin.first && t1.pointBegin.second <= t2.pointEnd.second && t1.pointEnd.first >= t2.pointBegin.first && t1.pointEnd.second >= t2.pointEnd.second))
-        return true;
-    if ((t2.pointBegin.first <= t1.pointBegin.first && t2.pointBegin.second <= t1.pointBegin.second && t2.pointEnd.first >= t1.pointBegin.first && t2.pointEnd.second >= t1.pointBegin.second) ||
-        (t2.pointBegin.first <= t1.pointEnd.first && t2.pointBegin.second <= t1.pointEnd.second && t2.pointEnd.first >= t1.pointEnd.first && t2.pointEnd.second >= t1.pointEnd.second) ||
-        (t2.pointBegin.first <= t1.pointEnd.first && t2.pointEnd.second >= t1.pointBegin.second && t2.pointEnd.first >= t1.pointEnd.first && t2.pointBegin.second <= t1.pointBegin.second) ||
-        (t2.pointBegin.first <= t1.pointBegin.first && t2.pointBegin.second <= t1.pointEnd.second && t2.pointEnd.first >= t1.pointBegin.first && t2.pointEnd.second >= t1.pointEnd.second))
-        return true;
-    return false;
+    while (true)
+        std::for_each(std::begin(*moveables),
+                      std::end(*moveables),
+                      [](auto &el) {
+                          el->move();
+                      });
 }
 
 //move balls
-void moveBall(vector<shared_ptr<Ball>> *balls, vector<shared_ptr<Obstacle>> *objects)
-{
-    vector<thread> th_balls;
-    for (auto b : *balls)
-        th_balls.push_back(thread([=]() {
-            while (true)
-            {
-                b->move(1000);
-                for (auto obj : *objects)
-                    if (isCollision(b->teritory(), obj->teritory()))
-                    {
-                        b->bounceHor();
-                        obj->restartPosition();
-                    }
-            }
-        }));
+// void moveBall(std::vector<std::shared_ptr<Ball>> *balls, std::vector<std::shared_ptr<Obstacle>> *objects)
+// {
+//     std::vector<std::thread> th_balls;
+//     for (auto b : *balls)
+//         th_balls.push_back(std::thread([=]() {
+//             while (true)
+//             {
+//                 b->move(1000);
+//                 for (auto obj : *objects)
+//                     if (isCollision(b->teritory(), obj->teritory()))
+//                     {
+//                         b->bounceHor();
+//                         obj->restartPosition();
+//                     }
+//             }
+//         }));
 
-    for (auto &i : th_balls)
-        i.join();
-}
+//     for (auto &i : th_balls)
+//         i.join();
+// }
 
 // move obstacles
-void moveObstacles(vector<shared_ptr<Obstacle>> *obstacles)
-{
-    while (true)
-    {
-        for (auto it = obstacles->begin(); it != obstacles->end(); ++it)
-            (*it)->move(100);
-    }
-    // vector<thread> th_obst;
-    // for (auto obs : *obstacles)
-    //     th_obst.push_back(thread([=]() {
-    //         while (true)
-    //             obs->move(2000);
-    //     }));
-    // for (auto &i : th_obst)
-    //     i.join();
-}
+// void moveObstacles(std::vector<std::shared_ptr<Obstacle>> *obstacles)
+// {
+//     while (true)
+//     {
+//         for (auto it = obstacles->begin(); it != obstacles->end(); ++it)
+//             (*it)->move(100);
+//     }
+//     // std::vector<std::thread> th_obst;
+//     // for (auto obs : *obstacles)
+//     //     th_obst.push_back(std::thread([=]() {
+//     //         while (true)
+//     //             obs->move(2000);
+//     //     }));
+//     // for (auto &i : th_obst)
+//     //     i.join();
+// }
 
 // start a motion of each obstacle with a delay
-void startObstacles(vector<shared_ptr<Obstacle>> *obstacles)
+void startObstacles(std::shared_ptr<std::vector<std::shared_ptr<Object>>> &obstacles)
 {
     std::mt19937 rng;
     rng.seed(std::random_device()());
     std::uniform_int_distribution<std::mt19937::result_type> dist(1, 10); // distribution in range [1, 6]
 
-    for (auto it = obstacles->begin(); it != obstacles->end(); ++it)
+    for (auto it = (obstacles)->begin(); it != (obstacles)->end(); ++it)
     {
-        (*it)->start();
+        (dynamic_cast<Obstacle *>(&**it))->start();
         usleep(50000 * dist(rng));
     }
 }

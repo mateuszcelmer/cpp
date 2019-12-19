@@ -1,69 +1,95 @@
-#include "../ball.h"
-
-using namespace std;
+#include "ball.h"
+#include "obstacles.h"
 
 Ball::Ball()
 {
     init();
 }
-Ball::Ball(float h, float v) : horDirection{h}, verDirection{v}
+Ball::Ball(float h, float v) : m_horDirection{h}, m_verDirection{v}
 {
     init();
 };
 void Ball::init()
 {
-    type = "ball";
-    shape = std::make_shared<sf::CircleShape>(radius);
-    shape->setFillColor(sf::Color(60, 100, 200));
+    m_type = "ball";
+    m_shape = std::make_shared<sf::CircleShape>(m_radius);
+    m_shape->setFillColor(sf::Color(60, 100, 200));
 
     // starting position random
     std::mt19937 rng;
     rng.seed(std::random_device()());
     std::uniform_int_distribution<std::mt19937::result_type> dist(-20, 20);
-    shape->move(Scene::windowSize[0] / 2 + dist(rng), Scene::windowSize[1] / 2 + dist(rng));
+    m_shape->move(Scene::m_windowSize[0] / 2 + dist(rng), Scene::m_windowSize[1] / 2 + dist(rng));
 
     // starting direction random
     dist = std::uniform_int_distribution<std::mt19937::result_type>(0, 200);
-    horDirection = ((float)dist(rng) - 100) / 100;
-    verDirection = ((float)dist(rng) - 100) / 100;
-}
-auto Ball::getShape()
-{
-    return shape;
+    m_horDirection = ((float)dist(rng) - 100) / 100;
+    m_verDirection = ((float)dist(rng) - 100) / 100;
 }
 void Ball::bounceHor()
 {
-    horDirection = -horDirection;
-    verDirection = -verDirection;
-    shape->move(horDirection, verDirection);
+    m_horDirection = -m_horDirection;
+    // m_verDirection = -m_verDirection;
+    m_shape->move(m_horDirection, m_verDirection);
 }
 void Ball::bounceVer()
 {
-    horDirection = -horDirection;
-    shape->move(1 * horDirection, 0);
+    m_horDirection = -m_horDirection;
+    m_shape->move(1 * m_horDirection, 0);
 }
 void Ball::bounceIfNeeded()
 {
-    if (shape->getPosition().y > Scene::windowSize[1] - Scene::margin - radius * 2)
-        verDirection = -verDirection;
-    if (shape->getPosition().y < Scene::margin)
-        verDirection = -verDirection;
-    if (shape->getPosition().x > Scene::windowSize[0] - Scene::margin - radius * 2)
-        horDirection = -horDirection;
-    if (shape->getPosition().x < Scene::margin)
-        horDirection = -horDirection;
+    if (m_shape->getPosition().y > Scene::m_windowSize[1] - Scene::m_margin - m_radius * 2)
+        m_verDirection = -m_verDirection;
+    else if (m_shape->getPosition().y < Scene::m_margin)
+        m_verDirection = -m_verDirection;
+    if (m_shape->getPosition().x > Scene::m_windowSize[0] - Scene::m_margin - m_radius * 2)
+        m_horDirection = -m_horDirection;
+    else if (m_shape->getPosition().x < Scene::m_margin)
+        m_horDirection = -m_horDirection;
 }
-void Ball::move(int microseconds)
+
+// check the collision of the objects
+bool isCollision(Teritory t1, Teritory t2)
+{
+    if ((t1.pointBegin.first <= t2.pointBegin.first && t1.pointBegin.second <= t2.pointBegin.second && t1.pointEnd.first >= t2.pointBegin.first && t1.pointEnd.second >= t2.pointBegin.second) ||
+        (t1.pointBegin.first <= t2.pointEnd.first && t1.pointBegin.second <= t2.pointEnd.second && t1.pointEnd.first >= t2.pointEnd.first && t1.pointEnd.second >= t2.pointEnd.second) ||
+        (t1.pointBegin.first <= t2.pointEnd.first && t1.pointEnd.second >= t2.pointBegin.second && t1.pointEnd.first >= t2.pointEnd.first && t1.pointBegin.second <= t2.pointBegin.second) ||
+        (t1.pointBegin.first <= t2.pointBegin.first && t1.pointBegin.second <= t2.pointEnd.second && t1.pointEnd.first >= t2.pointBegin.first && t1.pointEnd.second >= t2.pointEnd.second))
+        return true;
+    if ((t2.pointBegin.first <= t1.pointBegin.first && t2.pointBegin.second <= t1.pointBegin.second && t2.pointEnd.first >= t1.pointBegin.first && t2.pointEnd.second >= t1.pointBegin.second) ||
+        (t2.pointBegin.first <= t1.pointEnd.first && t2.pointBegin.second <= t1.pointEnd.second && t2.pointEnd.first >= t1.pointEnd.first && t2.pointEnd.second >= t1.pointEnd.second) ||
+        (t2.pointBegin.first <= t1.pointEnd.first && t2.pointEnd.second >= t1.pointBegin.second && t2.pointEnd.first >= t1.pointEnd.first && t2.pointBegin.second <= t1.pointBegin.second) ||
+        (t2.pointBegin.first <= t1.pointBegin.first && t2.pointBegin.second <= t1.pointEnd.second && t2.pointEnd.first >= t1.pointBegin.first && t2.pointEnd.second >= t1.pointEnd.second))
+        return true;
+    return false;
+}
+
+void Ball::move()
 {
     int step = 1;
-    shape->move(step * horDirection, step * verDirection);
+    m_shape->move(step * m_horDirection, step * m_verDirection);
     bounceIfNeeded();
-    usleep(microseconds);
+    for (auto obj : *m_bounceablesPtr)
+        if (isCollision(getTeritory(), obj->getTeritory()))
+        {
+            bounceHor();
+            ((Obstacle *)&*obj)->restartPosition();
+        }
+    usleep(getStepDelay());
 }
-Teritory Ball::teritory()
+
+Teritory Ball::getTeritory() const
 {
     Teritory ter;
-    ter.pointBegin = pair<int, int>(shape->getPosition().x, shape->getPosition().y);
-    ter.pointEnd = pair<int, int>(shape->getPosition().x + 2 * radius, shape->getPosition().y + 2 * radius);
+    ter.pointBegin = std::pair<int, int>(m_shape->getPosition().x, m_shape->getPosition().y);
+    ter.pointEnd = std::pair<int, int>(m_shape->getPosition().x + 2 * m_radius, m_shape->getPosition().y + 2 * m_radius);
     return ter;
+}
+
+std::unique_ptr<const objects_t> Ball::m_bounceablesPtr;
+
+void Ball::loadBounceables(std::unique_ptr<const objects_t> &&bounceablesPtr)
+{
+    m_bounceablesPtr = std::move(bounceablesPtr);
 }
