@@ -5,13 +5,14 @@
 #include "player.h"
 #include "ball.h"
 #include "obstacles.h"
+#include "map.h"
 #include <vector>
 #include <thread>
 
 template <class T>
 void loadBallBounceables(T &t)
 {
-    auto temp = std::make_unique<objects_t>();
+    auto temp = std::make_unique<Objects_t>();
     std::for_each(std::cbegin(t), std::cend(t), [&temp](auto &ptr) {
         temp->push_back(ptr);
     });
@@ -22,9 +23,9 @@ int main()
 {
     Scene scene;
 
-    objects_t objects;
-    moveables_t moveables;
-    obstacles_t obstacles;
+    Objects_t objects;
+    Moveables_t moveables;
+    Obstacles_t obstacles;
     auto player = std::make_shared<Player>();
 
     objects.push_back(player);
@@ -51,11 +52,11 @@ int main()
     // Threads - start the life of elements
     std::thread thread1([&objects, &scene, &player] { render(objects, scene, player); });
     std::thread thread2(moveObjects, &moveables);
-    std::thread thread4([&obstacles] { startObjects(obstacles); });
+    std::thread thread4([&obstacles] { startObstaclesRandomly(obstacles); });
 
     thread4.join();
-    thread2.join();
     thread1.join();
+    thread2.join();
 
     return 0;
 }

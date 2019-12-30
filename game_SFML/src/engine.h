@@ -11,7 +11,7 @@
 #include <chrono>
 
 // render and key control
-void render(objects_t &objects, Scene &scene, std::shared_ptr<Player> player);
+void render(Objects_t &objects, Scene &scene, std::shared_ptr<Player> player);
 // check the collision of the objects
 bool isCollision(Teritory t1, Teritory t2);
 //move balls

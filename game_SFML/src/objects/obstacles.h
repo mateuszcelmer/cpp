@@ -18,6 +18,9 @@ public:
   Teritory getTeritory() const override;
 };
 
-using obstacles_t = std::vector<std::shared_ptr<Obstacle>>;
+using Obstacles_t = std::vector<std::shared_ptr<Obstacle>>;
+using ObstaclesPtr = std::shared_ptr<Obstacles_t>;
+
+void startObstaclesRandomly(Obstacles_t &, uint32_t delay = 100);
 
 #endif

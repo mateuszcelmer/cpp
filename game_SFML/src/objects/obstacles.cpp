@@ -46,3 +46,13 @@ Teritory Obstacle::getTeritory() const
     ter.pointEnd = std::pair<int, int>(m_shape->getPosition().x + m_width, m_shape->getPosition().y + m_height);
     return ter;
 }
+
+void startObstaclesRandomly(Obstacles_t &obstacles, uint32_t delay)
+{
+    using namespace std::chrono_literals;
+    std::for_each(std::begin(obstacles), std::end(obstacles),
+                  [=](const auto &el) {
+                      std::this_thread::sleep_for(1ms * delay);
+                      el->start();
+                  });
+}

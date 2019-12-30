@@ -1,5 +1,5 @@
-#ifndef __Object_h__
-#define __Object_h__
+#ifndef Object_h__
+#define Object_h__
 
 #include <SFML/Graphics.hpp>
 #include "scene.h"
@@ -7,12 +7,20 @@
 #include <unistd.h>
 #include <random>
 #include <memory>
-#include <string>
 #include <thread>
+#include "common.h"
 
 struct Teritory
 {
-  std::pair<int, int> pointBegin, pointEnd;
+  Point pointBegin, pointEnd;
+  Point getPosition()
+  {
+    auto &x1 = pointBegin.first;
+    auto &x2 = pointEnd.first;
+    auto &y1 = pointBegin.second;
+    auto &y2 = pointEnd.second;
+    return {(x1 + x2) / 2, (y1 + y2) / 2};
+  }
 };
 
 class Object
@@ -39,7 +47,10 @@ public:
   void setStepDelay(int delayInMicroseconds) { m_stepDelay_us = delayInMicroseconds; }
 };
 
-using objects_t = std::vector<std::shared_ptr<Object>>;
-using moveables_t = std::vector<std::shared_ptr<Moveable>>;
+bool isCollision(Teritory &, Teritory &);
 
-#endif // !__Object_h__
+using Objects_t = std::vector<std::shared_ptr<Object>>;
+using Moveables_t = std::vector<std::shared_ptr<Moveable>>;
+using ObjectsPtr = std::shared_ptr<std::vector<std::shared_ptr<Object>>>;
+
+#endif // Object_h__

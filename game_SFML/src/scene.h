@@ -3,15 +3,16 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <iostream>
+#include "common.h"
 
 #define DEFAULT_WINDOW_SIZE_X 1000;
 #define DEFAULT_WINDOW_SIZE_Y 1000;
 #define DEFAULT_MARGIN 10;
-
 class Scene
 {
   sf::ConvexShape makeFrame(const int size[], const int margin);
   sf::ConvexShape m_frame;
+  // Map map;
 
 public:
   static int m_windowSize[2];

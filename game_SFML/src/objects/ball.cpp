@@ -37,7 +37,7 @@ void Ball::bounceVer()
     m_horDirection = -m_horDirection;
     m_shape->move(1 * m_horDirection, 0);
 }
-void Ball::bounceIfNeeded()
+void Ball::bounceFromWallsIfNeeded()
 {
     if (m_shape->getPosition().y > Scene::m_windowSize[1] - Scene::m_margin - m_radius * 2)
         m_verDirection = -m_verDirection;
@@ -49,33 +49,20 @@ void Ball::bounceIfNeeded()
         m_horDirection = -m_horDirection;
 }
 
-// check the collision of the objects
-bool isCollision(Teritory t1, Teritory t2)
-{
-    if ((t1.pointBegin.first <= t2.pointBegin.first && t1.pointBegin.second <= t2.pointBegin.second && t1.pointEnd.first >= t2.pointBegin.first && t1.pointEnd.second >= t2.pointBegin.second) ||
-        (t1.pointBegin.first <= t2.pointEnd.first && t1.pointBegin.second <= t2.pointEnd.second && t1.pointEnd.first >= t2.pointEnd.first && t1.pointEnd.second >= t2.pointEnd.second) ||
-        (t1.pointBegin.first <= t2.pointEnd.first && t1.pointEnd.second >= t2.pointBegin.second && t1.pointEnd.first >= t2.pointEnd.first && t1.pointBegin.second <= t2.pointBegin.second) ||
-        (t1.pointBegin.first <= t2.pointBegin.first && t1.pointBegin.second <= t2.pointEnd.second && t1.pointEnd.first >= t2.pointBegin.first && t1.pointEnd.second >= t2.pointEnd.second))
-        return true;
-    if ((t2.pointBegin.first <= t1.pointBegin.first && t2.pointBegin.second <= t1.pointBegin.second && t2.pointEnd.first >= t1.pointBegin.first && t2.pointEnd.second >= t1.pointBegin.second) ||
-        (t2.pointBegin.first <= t1.pointEnd.first && t2.pointBegin.second <= t1.pointEnd.second && t2.pointEnd.first >= t1.pointEnd.first && t2.pointEnd.second >= t1.pointEnd.second) ||
-        (t2.pointBegin.first <= t1.pointEnd.first && t2.pointEnd.second >= t1.pointBegin.second && t2.pointEnd.first >= t1.pointEnd.first && t2.pointBegin.second <= t1.pointBegin.second) ||
-        (t2.pointBegin.first <= t1.pointBegin.first && t2.pointBegin.second <= t1.pointEnd.second && t2.pointEnd.first >= t1.pointBegin.first && t2.pointEnd.second >= t1.pointEnd.second))
-        return true;
-    return false;
-}
-
 void Ball::move()
 {
     int step = 1;
     m_shape->move(step * m_horDirection, step * m_verDirection);
-    bounceIfNeeded();
-    for (auto obj : *m_bounceablesPtr)
-        if (isCollision(getTeritory(), obj->getTeritory()))
-        {
-            bounceHor();
-            ((Obstacle *)&*obj)->restartPosition();
-        }
+    // TODO dodać warunek if(hasCollision()) bounce();
+    bounceFromWallsIfNeeded();
+    // TODO nie sprawdzać pozycji wszystkich przeszkód tylko swoją okolicę -> czy tam są jakieś przeszkody
+    // for (auto obj : *m_bounceablesPtr)
+    //     if (isCollision(getTeritory(), obj->getTeritory()))
+    //     {
+    //         bounceHor();
+    //         ((Obstacle *)&*obj)->restartPosition();
+    //     }
+    // TODO chyba lepiej użyc std::this_thread::sleep_for()
     usleep(getStepDelay());
 }
 
@@ -87,9 +74,9 @@ Teritory Ball::getTeritory() const
     return ter;
 }
 
-std::unique_ptr<const objects_t> Ball::m_bounceablesPtr;
+std::unique_ptr<const Objects_t> Ball::m_bounceablesPtr;
 
-void Ball::loadBounceables(std::unique_ptr<const objects_t> &&bounceablesPtr)
+void Ball::loadBounceables(std::unique_ptr<const Objects_t> &&bounceablesPtr)
 {
     m_bounceablesPtr = std::move(bounceablesPtr);
 }
