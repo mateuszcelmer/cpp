@@ -12,8 +12,8 @@
 
 struct Teritory
 {
-  Point pointBegin, pointEnd;
-  Point getPosition()
+  PointF pointBegin, pointEnd;
+  PointF getPosition()
   {
     auto &x1 = pointBegin.first;
     auto &x2 = pointEnd.first;
@@ -27,21 +27,41 @@ class Object
 {
 protected:
   std::string m_type;
+  PointF m_position;
+  PointF m_lastPosition;
 
 public:
   std::shared_ptr<sf::Shape> m_shape;
   virtual Teritory getTeritory() const = 0;
+  PointF getPosition() const { return m_position; }
+  PointF getPrevPosition() const { return m_lastPosition; }
+  void setPosition(PointF position)
+  {
+    m_lastPosition = m_position;
+    m_position = position;
+  }
+  void setPosition(float x, float y)
+  {
+    setPosition(PointF{x, y});
+  }
   auto getShape() { return m_shape; }
   auto getType() { return m_type; }
 
-  Object() {}
+  Object(PointF position = PointF{0, 0}) : m_position{position} {}
 };
 
 class Moveable
 {
   int m_stepDelay_us = 10;
 
+protected:
+  std::array<float, 2> m_direction;
+
 public:
+  Moveable()
+  {
+    m_direction = std::array<float, 2>{0, 1};
+  }
   virtual void move() = 0;
   int getStepDelay() { return m_stepDelay_us; }
   void setStepDelay(int delayInMicroseconds) { m_stepDelay_us = delayInMicroseconds; }

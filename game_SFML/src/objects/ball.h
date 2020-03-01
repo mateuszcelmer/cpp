@@ -6,16 +6,30 @@
 // Ball
 class Ball : public Object, public Moveable
 {
-  float m_horDirection = 1, m_verDirection = 1;
   short m_radius = 10;
   static std::unique_ptr<const Objects_t> m_bounceablesPtr;
 
 public:
-  Ball();
-  Ball(float h, float v);
-  void init();
-  void bounceHor();
-  void bounceVer();
+  Ball(PointF position = PointF{0.f, 0.f}) : Object(position)
+  {
+    m_type = "ball";
+    m_shape = std::make_shared<sf::CircleShape>(m_radius);
+    initWithDefaultValues();
+    randomizeDirectionVector();
+    randomizePosition();
+    updateShapePosition();
+  };
+  void updateShapePosition()
+  {
+    m_shape->setPosition(m_position.first, m_position.second);
+  }
+  void randomizePosition();
+  void randomizeDirectionVector();
+  void initWithDefaultValues();
+  void bounceFromLeftBound();
+  void bounceFromRightBound();
+  void bounceFromTopBound();
+  void bounceFromBottomBound();
   void bounceFromWallsIfNeeded();
   void move() override;
   Teritory getTeritory() const override;

@@ -3,7 +3,7 @@
 
 void render(Objects_t &objects, Scene &scene, std::shared_ptr<Player> player)
 {
-    sf::RenderWindow window(sf::VideoMode(scene.m_windowSize[0], scene.m_windowSize[1]), "The Game");
+    sf::RenderWindow window(sf::VideoMode(scene.m_sceneSize.first, scene.m_sceneSize.second), "The Game");
     while (window.isOpen())
     {
         sf::Event event;
@@ -46,15 +46,19 @@ void render(Objects_t &objects, Scene &scene, std::shared_ptr<Player> player)
     }
 }
 
-void moveObjects(std::vector<std::shared_ptr<Moveable>> *moveables)
+void moveBalls(std::vector<std::shared_ptr<Ball>> &balls, Map<Ball, Obstacle> &map)
 {
     while (true)
-        std::for_each(std::begin(*moveables),
-                      std::end(*moveables),
-                      [](auto &el) {
+        std::for_each(std::begin(balls),
+                      std::end(balls),
+                      [&](auto &el) {
+                          map.handleElementMove(el);
                           el->move();
+
+                          std::this_thread::sleep_for(std::chrono::milliseconds(1));
                       });
 }
+
 
 //move balls
 // void moveBall(std::vector<std::shared_ptr<Ball>> *balls, std::vector<std::shared_ptr<Obstacle>> *objects)

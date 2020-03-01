@@ -13,7 +13,7 @@ void Obstacle::restartPosition()
     // starting position
     std::mt19937 rng;
     rng.seed(std::random_device()());
-    std::uniform_int_distribution<std::mt19937::result_type> dist6(Scene::m_margin * 2, Scene::m_windowSize[0] - Scene::m_margin * 2); // distribution in range [1, 6]
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(Scene::m_margin * 2, Scene::m_sceneSize.first - Scene::m_margin * 2); // distribution in range [1, 6]
     m_shape->setPosition(dist6(rng), 2 * Scene::m_margin);
 }
 
@@ -24,7 +24,7 @@ void Obstacle::start()
 
 void Obstacle::restartIfNeeded()
 {
-    if (m_shape->getPosition().y > Scene::m_windowSize[1] - Scene::m_margin - m_height)
+    if (m_shape->getPosition().y > Scene::m_sceneSize.second - Scene::m_margin - m_height)
         restartPosition();
 }
 
@@ -34,7 +34,6 @@ void Obstacle::move()
     {
         int step = 1;
         m_shape->move(0, step);
-        usleep(getStepDelay());
         restartIfNeeded();
     }
 }

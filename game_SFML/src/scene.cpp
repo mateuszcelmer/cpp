@@ -1,4 +1,4 @@
 #include "scene.h"
 
-int Scene::m_windowSize[];
-int Scene::m_margin;
+sceneSize_t Scene::m_sceneSize;
+uint32_t Scene::m_margin;

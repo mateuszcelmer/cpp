@@ -7,7 +7,7 @@ Player::Player()
     m_shape->setFillColor(sf::Color(200, 100, 0));
 
     // starting position
-    m_shape->move(Scene::m_windowSize[0] / 2 - 2 * Scene::m_margin - m_width / 2, Scene::m_windowSize[1] - Scene::m_margin - m_height);
+    m_shape->move(Scene::m_sceneSize.first / 2 - 2 * Scene::m_margin - m_width / 2, Scene::m_sceneSize.second - Scene::m_margin - m_height);
 };
 
 void Player::move(int step)

@@ -1,36 +1,34 @@
 cmake_minimum_required ( VERSION 3.0 )
 
-project( the_game )
-SET(THE_TARGET "game")
+set(This game)
+set(ThisLib libgame)
 
-#flags
-SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -fsanitize=address -g" )
+project(${This} C CXX)
 
-#files
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -fsanitize=address -g" )
+#set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wall -Werror -O3 -g" )
 
-#include
+enable_testing()
+
+add_subdirectory(tests/googletest)
+add_subdirectory(tests)
+
 include_directories( ./include ./src ./src/objects)
 
 # add source cpp files
-# AUX_SOURCE_DIRECTORY(./src SOURCES) 
-# AUX_SOURCE_DIRECTORY(./src/objects SOURCES2) 
-# ...or with GLOB - less recommended
-FILE(GLOB_RECURSE SOURCES  ./src/*.cpp)
+FILE(GLOB_RECURSE Sources  ./src/*.cpp)
+FILE(GLOB_RECURSE Headers  ./src/*.h)
 
 # target
-add_executable(${THE_TARGET} ${SOURCES})
+add_executable(${This} ${Sources})
+add_library(${ThisLib} STATIC ${Headers} ${Sources})
 
 # set properties
-set_target_properties(${THE_TARGET} PROPERTIES COMPILE_FLAGS ${CMAKE_CXX_FLAGS})
+set_target_properties(${This} PROPERTIES COMPILE_FLAGS ${CMAKE_CXX_FLAGS})
+set_target_properties(${ThisLib} PROPERTIES COMPILE_FLAGS ${CMAKE_CXX_FLAGS})
 
-# external libs - shared
-# add_subdirectory( ./libs/Logger )
-# target_link_libraries(${THE_TARGET} logger )
-target_link_libraries(${THE_TARGET} -lsfml-graphics -lsfml-window -lsfml-system -lpthread )
-
-# external libs - static
-# add_library(randomize STATIC IMPORTED)
-# set_property(TARGET randomize PROPERTY IMPORTED_LOCATION ${CMAKE_SOURCE_DIR}/lib/Randomize/librandomize.a)
-# target_link_libraries(${THE_TARGET} randomize )
-
-#end of the CMakeLists.txt
+target_link_libraries(${This} -lsfml-graphics -lsfml-window -lsfml-system -lpthread )
+target_link_libraries(${ThisLib} -lsfml-graphics -lsfml-window -lsfml-system -lpthread )
