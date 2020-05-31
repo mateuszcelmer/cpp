@@ -10,7 +10,7 @@ int main()
     std::string_view cppstr{"foo"};
 
     // Wide strings
-    std::wstring_view wcstr_v{L"baz"};
+    std::wstring_view wcstr_v{L"wide"};
 
     // Character arrays
     char array[3] = {'b', 'a', 'r'};
@@ -27,6 +27,8 @@ int main()
 
     std::cout << str << std::endl;
     std::cout << v << std::endl;
+
+    std::wcout << wcstr_v << L" Lasdf" << std::endl;
 
     return 0;
 }

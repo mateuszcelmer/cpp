@@ -5,7 +5,7 @@ using namespace std;
 int main()
 {
     const char name[] =
-        "M. M. Celmer";         // name's type is const char[13]
+        "M. M. Surname";        // name's type is const char[13]
     auto arr1 = name;           // arr1's type is const char*
     auto &arr2 = name;          // arr2's type is const char (&)[13]
                                 //

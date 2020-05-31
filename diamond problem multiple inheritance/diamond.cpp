@@ -51,7 +51,10 @@ public:
 int main()
 {
   D d;
-  cout << "d.print() = ";
-  d.print();
+  // d.print();  // error: request for member ‘print’ is ambiguous
+
+  d.B::print();
+  d.C::print();
+
   return 0;
 }

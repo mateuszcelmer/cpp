@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <exception>
 
 int main()
 {
@@ -52,7 +53,7 @@ int main()
     }
 
     // weak_ptr
-
+    std::cout << "=== weak_ptr ===" << std::endl;
     {
         std::shared_ptr<int> p_shared = std::make_shared<int>(321);
         std::weak_ptr<int> p_weak1(p_shared);
@@ -63,5 +64,22 @@ int main()
         std::cout << "*p_w1_shared = " << *p_w1_shared << std::endl;
 
         std::cout << "p_weak1.expired() = " << p_weak1.expired() << std::endl;
+
+        {
+            std::weak_ptr<int> wp1(std::make_shared<int>(999));
+            std::weak_ptr<int> wp2 = std::make_shared<int>(888);
+            auto sp1 = wp1.lock();
+            if (sp1)
+            {
+                std::cout << "if" << std::endl; // not printed!
+            }
+            std::cout << sp1.get() << std::endl; // 0
+
+            // std::cout << *sp1 << std::endl; // Segmentation fault
+            auto sp2 = std::make_shared<int>(444);
+            wp1 = sp2;
+            if (auto sp = wp1.lock(); sp)
+                std::cout << *sp << std::endl;
+        }
     }
 }

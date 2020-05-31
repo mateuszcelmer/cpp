@@ -9,7 +9,6 @@ void doTheWork()
 
 void waitingForWork(std::future<void> &&fut)
 {
-
     std::cout << "Worker: Waiting for work." << std::endl;
     fut.wait();
     doTheWork();
@@ -18,14 +17,12 @@ void waitingForWork(std::future<void> &&fut)
 
 void setDataReady(std::promise<void> &&prom)
 {
-
     std::cout << "Sender: Data is ready." << std::endl;
     prom.set_value();
 }
 
 int main()
 {
-
     std::cout << std::endl;
 
     std::promise<void> sendReady;

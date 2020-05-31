@@ -12,12 +12,21 @@ int foo()
 
 int main()
 {
-    std::cout << "start" << std::endl;
-    auto handle = std::async(std::launch::async, foo);
-    // auto handle = std::async(std::launch::deferred, foo);
+    {
+        std::cout << "start std::lanuch::async" << std::endl;
+        auto handle = std::async(std::launch::async, foo);
 
-    std::cout << "---" << std::endl;
-    auto result = handle.get();
-    std::cout << result << "\nend" << std::endl;
+        std::cout << "---" << std::endl;
+        auto result = handle.get();
+        std::cout << result << "\nend" << std::endl;
+    }
+    {
+        std::cout << "start std::launch::deferred" << std::endl;
+        std::future handle = std::async(std::launch::deferred, foo);
+
+        std::cout << "---" << std::endl;
+        auto result = handle.get();
+        std::cout << result << "\nend" << std::endl;
+    }
     return 0;
 }

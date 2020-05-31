@@ -14,5 +14,11 @@ int main()
     for (int i = 0; i < n; ++i)
         cout << arr[i] << " ";
 
+    reverse(arr, arr + n);
+
+    cout << "Array after reverse : \n";
+    for (int i = 0; i < n; ++i)
+        cout << arr[i] << " ";
+
     return 0;
 }

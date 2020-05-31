@@ -8,7 +8,7 @@ int main()
     // Create a circular buffer with a capacity for 3 integers.
     boost::circular_buffer<int> cb(3);
 
-    for (auto &&el : cb)
+    for (auto &&el : cb)                // 0 size, so not executed
         std::cout << el << std::endl;
 
     // Insert three elements into the buffer.

@@ -91,5 +91,13 @@ int main()
     engineer->constructHouse();
     House house = engineer->getHouse();
     std::cout << "Builder constructed: " << house.getInfo() << std::endl;
+
+    // another house
+
+    engineer = std::make_unique<CivilEngineer>(std::make_unique<TipiHouseBuilder>());
+    engineer->constructHouse();
+    house = engineer->getHouse();
+    std::cout << "Builder constructed: " << house.getInfo() << std::endl;
+
     return 0;
 }

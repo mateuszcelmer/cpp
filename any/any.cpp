@@ -48,6 +48,8 @@ int main()
 {
     std::vector<std::any> v{5, 3.14, "Hello!@#$%^", S(), U()};
 
+    v.push_back(L"wide");
+
     for (auto &&i : v)
         std::cout << i.type().name() << "\n";
 

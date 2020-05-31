@@ -1,6 +1,7 @@
 #include <iostream>
 #include <array>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -13,5 +14,15 @@ int main()
         el *= 2;
     for (auto &el : a)
         std::cout << el << std::endl;
+
+    std::cout << "---" << std::endl;
+
+    // C style array
+    int arr[] = {1, 2, 3, 4};
+    auto limit = remove_if(begin(arr), end(arr), [](int el) { return el % 2; });
+
+    for (auto el : arr)     // print all
+        std::cout << el << std::endl;
+
     return 0;
 }

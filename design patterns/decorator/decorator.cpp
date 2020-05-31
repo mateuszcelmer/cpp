@@ -12,6 +12,7 @@ protected:
 public:
   virtual string getDescription() { return description; }
   virtual double cost() = 0;
+  void print() {cout << getDescription() << " $" << cost() << endl;}
 };
 
 class CondimentDecorator : public Beverage
@@ -61,15 +62,15 @@ public:
 int main()
 {
   shared_ptr<Beverage> beverage1 = make_shared<Espresso>();
-  cout << beverage1->getDescription() << " $" << beverage1->cost() << endl;
+  beverage1->print();
 
   shared_ptr<Beverage> beverage2 = make_shared<HouseBlend>();
-  cout << beverage2->getDescription() << " $" << beverage2->cost() << endl;
+  beverage2->print();
   beverage2 = make_shared<Mocha>(beverage2);
   beverage2 = make_shared<Mocha>(beverage2);
   beverage2 = make_shared<Soy>(beverage2);
   beverage2 = make_shared<Whip>(beverage2);
-  cout << beverage2->getDescription() << " $" << beverage2->cost() << endl;
+  beverage2->print();
 
   return 0;
 }

@@ -18,12 +18,18 @@ string bar(string in)
     return "From bar"s + in + " 5 seconds";
 }
 
+
+
 int main()
 {
     cout << "START!\n"
          << endl;
 
     auto start = chrono::system_clock::now();
+
+    auto fun = [](){return 123;};
+    auto ret = std::async(std::launch::async, fun);
+    cout << ret.get() << endl; 
 
     future<string> resultFromFoo = async(launch::async, foo, "YES");
     auto resultFromBar = async(launch::async, bar, "SECOND");

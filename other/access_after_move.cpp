@@ -10,7 +10,7 @@ public:
     A() { std::cout << "Constructor " << this << std::endl; }
     A(A &&a)
     {
-        std::cout << "Copy Constructor&& " << this << std::endl;
+        std::cout << "Move Constructor&& " << this << std::endl;
         i = a.i;
     }
     ~A() { std::cout << "Destructor " << this << std::endl; }

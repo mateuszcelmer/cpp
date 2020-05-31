@@ -6,7 +6,9 @@ using namespace std;
 
 int main()
 {
-    tuple<int, double, string> test(3, 2.3, "Text");
+    tuple<int, double, string> test{3, 2.3, "Text"};
+
+    // get
 
     auto v1 = get<0>(test);
     auto v2 = get<1>(test);
@@ -15,6 +17,13 @@ int main()
     cout << v1 << endl;
     cout << v2 << endl;
     cout << v3 << endl;
+
+    // tie
+
+    string str;
+    tie(ignore, str, ignore) = make_tuple(1, "abc", 1.0f);
+
+    std::cout << std::endl << str << std::endl;
 
     // ---
     std::cout << std::endl;

@@ -14,7 +14,7 @@ class C
     void foo(int i) { y = i; }
 };
 
-class D : virtual public B, virtual public C
+class D : public B, public C
 {
   public:
     void foo(int o)
@@ -28,5 +28,8 @@ int main()
 {
     D d;
     d.foo(12);
+    std::cout << "x = " << d.x << " y = " << d.y << std::endl;
+    d.B::foo(123);
+    d.C::foo(321);
     std::cout << "x = " << d.x << " y = " << d.y << std::endl;
 }

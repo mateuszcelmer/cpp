@@ -12,12 +12,12 @@ int main()
     cout << "Elementy pierwszej f_listy: ";
     for (auto &&i : flist1)
         cout << i << " ";
-    cout << endl;
+    cout << " size: " << std::distance(flist1.cbegin(), flist1.cend()) << endl;
 
     cout << "Elementy drugiej f_listy: ";
     for (auto &&i : flist2)
         cout << i << " ";
-    cout << endl;
+    cout << " size: " << std::distance(flist2.cbegin(), flist2.cend()) << endl;
 
     cout << "flist1.remove_if([](int x) { return x > 7; });" << endl;
     flist1.remove_if([](int x) { return x > 7; });
@@ -25,7 +25,7 @@ int main()
     cout << "Elementy pierwszej f_listy: ";
     for (auto &&i : flist1)
         cout << i << " ";
-    cout << endl;
+    cout << " size: " << std::distance(flist1.cbegin(), flist1.cend()) << endl;
 
     flist1.push_front(0);
     flist1.push_front(4);
@@ -34,6 +34,14 @@ int main()
     flist2.splice_after(++flist2.begin(), flist1);
     flist2.unique();
     flist2.reverse();
+
+    cout << "Elementy drugiej f_listy: ";
+    for (auto &&i : flist2)
+        cout << i << " ";
+    cout << endl;
+
+    flist2.sort();
+    flist2.unique();
 
     cout << "Elementy drugiej f_listy: ";
     for (auto &&i : flist2)

@@ -1,8 +1,14 @@
 #include <iostream>
 
-using namespace std;
+/*
+    void func1() noexcept;        // does not throw
+    void func2() noexcept(true);  // does not throw
+    void func3() throw();         // does not throw
 
-class MyException : public exception
+    void func4() noexcept(false); // may throw
+*/
+
+class MyException : public std::exception
 {
 public:
     virtual const char *what() const throw()

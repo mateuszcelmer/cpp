@@ -44,7 +44,7 @@ class C : virtual public A
 public:
   C()
   {
-    A(30);
+    // A(30);
     cout << "Konstruktor C() wywolany" << endl;
   }
   ~C() { cout << "Destruktor C() wywolany" << endl; }
@@ -54,8 +54,14 @@ public:
 class D : public B, public C
 {
 public:
-  D() : B(123), C() { cout << "Konstruktor D() wywolany" << endl; }
-  ~D() { cout << "Destruktor D() wywolany" << endl; }
+  D() : B(123), C()
+  {
+    cout << "Konstruktor D() wywolany" << endl;
+  }
+  ~D()
+  {
+    cout << "Destruktor D() wywolany" << endl;
+  }
 };
 
 int main()
@@ -63,5 +69,9 @@ int main()
   D d;
   cout << "d.print() = ";
   d.print();
+
+  d.A::print();
+  d.B::print();
+  d.C::print();
   return 0;
 }
