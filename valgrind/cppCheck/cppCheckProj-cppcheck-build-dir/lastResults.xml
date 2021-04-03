@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="2.0"/>
+    <errors>
+        <error id="memleak" severity="error" msg="Memory leak: p" verbose="Memory leak: p" cwe="401" sinceDate="31.05.2020">
+            <location file="../valtest.cpp" line="15"/>
+        </error>
+        <error id="uninitvar" severity="error" msg="Uninitialized variable: i" verbose="Uninitialized variable: i" cwe="457" sinceDate="31.05.2020">
+            <location file="../valtest.cpp" line="12"/>
+        </error>
+        <error id="unassignedVariable" severity="style" msg="Variable &amp;#039;i&amp;#039; is not assigned a value." verbose="Variable &amp;#039;i&amp;#039; is not assigned a value." cwe="665" sinceDate="31.05.2020">
+            <location file="../valtest.cpp" line="11"/>
+        </error>
+    </errors>
+</results>

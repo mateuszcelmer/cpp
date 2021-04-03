@@ -1,27 +1,34 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <iostream>
+#include <stack>
+#include <string>
 
-class A
+using namespace std;
+
+bool foo(std::string str)
 {
-public:
-    A()
+    std::stack<char> sta;
+    for (auto s : str)
     {
-        std::cout << "konstr" << std::endl;
+        if (s == '(')
+        {
+            sta.push(s);
+        }
+        if (s == ')')
+        {
+            if (sta.empty() || sta.top() != '(')
+                return false;
+            sta.pop();
+        }
     }
-    ~A()
-    {
-        std::cout << "destr" << std::endl;
-    }
-};
+    return sta.empty() ? true : false;
+}
 
 int main()
 {
-    // auto ptr = new A;
-    // delete ptr;
-
-    auto ptr = (A*)malloc(sizeof(A));
-    free(ptr);
-
+    std::cout << std::boolalpha << foo("()") << std::endl;
+    std::cout << std::boolalpha << foo("(())") << std::endl;
+    std::cout << std::boolalpha << foo(")") << std::endl;
+    std::cout << std::boolalpha << foo("(()()))") << std::endl;
+    std::cout << std::boolalpha << foo("(((((") << std::endl;
     return 0;
 }

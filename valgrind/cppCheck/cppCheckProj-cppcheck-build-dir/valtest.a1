@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="3680116087">
+        <error id="memleak" severity="error" msg="Memory leak: p" verbose="Memory leak: p" cwe="401">
+            <location file="../valtest.cpp" line="15" column="5"/>
+            <symbol>p</symbol>
+        </error>
+        <error id="uninitvar" severity="error" msg="Uninitialized variable: i" verbose="Uninitialized variable: i" cwe="457">
+            <location file="../valtest.cpp" line="12" column="18"/>
+            <symbol>i</symbol>
+        </error>
+        <error id="unassignedVariable" severity="style" msg="Variable &apos;i&apos; is not assigned a value." verbose="Variable &apos;i&apos; is not assigned a value." cwe="665">
+            <location file="../valtest.cpp" line="11" column="9"/>
+            <symbol>i</symbol>
+        </error>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="main" lineNumber="5"/>
+  </FileInfo>
+</analyzerinfo>

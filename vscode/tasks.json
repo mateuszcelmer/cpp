@@ -6,7 +6,7 @@
     {
       "label": "build",
       "type": "shell",
-      "command": "cd ${fileDirname} && g++ -g ${fileBasename} -o ${fileBasenameNoExtension} && ${fileDirname}/${fileBasenameNoExtension}",
+      "command": "cd ${fileDirname} && g++ -std=c++17 -g ${fileBasename} -o ${fileBasenameNoExtension} && ${fileDirname}/${fileBasenameNoExtension}",
       "group": {
         "kind": "build",
         "isDefault": true
